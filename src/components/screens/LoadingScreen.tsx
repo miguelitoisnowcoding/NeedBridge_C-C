@@ -12,11 +12,11 @@ export function LoadingScreen() {
   }, [navigate]);
 
   return (
-    <div className="flex h-screen w-full items-center justify-center bg-black">
+    <div className="flex h-screen w-full items-center justify-center" style={{ background: "#0C447C" }}>
       <div className="flex flex-col items-center gap-6">
         <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="60" cy="60" r="50" stroke="#E2E8F0" strokeWidth="8" />
-          <path d="M60 10C32.3858 10 10 32.3858 10 60" stroke="#1a3c5e" strokeLinecap="round" strokeWidth="8">
+          <circle cx="60" cy="60" r="50" stroke="rgba(255,255,255,0.2)" strokeWidth="8" />
+          <path d="M60 10C32.3858 10 10 32.3858 10 60" stroke="#E24B4A" strokeLinecap="round" strokeWidth="8">
             <animateTransform
               attributeName="transform"
               dur="1.5s"
@@ -26,7 +26,7 @@ export function LoadingScreen() {
               type="rotate"
             />
           </path>
-          <circle cx="60" cy="60" r="15" fill="#1a3c5e">
+          <circle cx="60" cy="60" r="15" fill="#E24B4A">
             <animate attributeName="opacity" dur="2s" repeatCount="indefinite" values="1;0.4;1" />
           </circle>
         </svg>

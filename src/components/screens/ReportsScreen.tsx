@@ -59,7 +59,7 @@ export function ReportsScreen() {
       {/* Page Header */}
       <section className="border-b border-gray-200 bg-white py-8 px-6">
         <div className="mx-auto max-w-7xl">
-          <h1 className="mb-2 text-[28px] font-bold" style={{ color: "#1A3C5E" }}>
+          <h1 className="mb-2 text-[28px] font-bold" style={{ color: "#185FA5" }}>
             Community Reports
           </h1>
           <p className="text-[15px] text-gray-500">
@@ -79,7 +79,7 @@ export function ReportsScreen() {
               type="text"
               placeholder="Search by keyword, location, or report ID..."
               className="w-full rounded-md border border-gray-200 bg-gray-50 py-2.5 pr-4 pl-12 text-sm text-gray-900 placeholder-gray-400 focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:outline-none"
-              style={{ borderLeft: "4px solid #1A3C5E" }}
+              style={{ borderLeft: "4px solid #185FA5" }}
             />
           </div>
           <div className="flex w-full gap-3 overflow-x-auto pb-2 md:w-auto md:pb-0">
@@ -132,7 +132,7 @@ export function ReportsScreen() {
                   <p className="line-clamp-2 text-[14px] leading-relaxed text-gray-500">{report.desc}</p>
                 </div>
                 {report.resolution && (
-                  <div className="mt-2 rounded-md border border-dashed border-blue-200 bg-blue-50 p-3 text-[13px]" style={{ color: "#1A3C5E" }}>
+                  <div className="mt-2 rounded-md border border-dashed border-blue-200 bg-blue-50 p-3 text-[13px]" style={{ color: "#185FA5" }}>
                     <span className="font-bold">Resolution:</span> {report.resolution}
                   </div>
                 )}
@@ -151,7 +151,7 @@ export function ReportsScreen() {
         </section>
 
         <div className="flex justify-center">
-          <button className="rounded-lg border-2 px-8 py-3 text-sm font-bold shadow-sm transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2" style={{ borderColor: "#1A3C5E", color: "#1A3C5E" }}>
+          <button className="rounded-lg border-2 px-8 py-3 text-sm font-bold shadow-sm transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2" style={{ borderColor: "#185FA5", color: "#185FA5" }}>
             Load More Reports
           </button>
         </div>

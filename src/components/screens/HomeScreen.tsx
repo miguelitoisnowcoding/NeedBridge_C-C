@@ -35,11 +35,11 @@ export function HomeScreen() {
   return (
     <PageLayout>
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-32" style={{ background: "#1A3C5E" }}>
+      <section className="relative overflow-hidden py-32" style={{ background: "#0C447C" }}>
         <div
           className="pointer-events-none absolute inset-0 opacity-30"
           style={{
-            backgroundImage: "radial-gradient(#284E75 1px, transparent 1px)",
+            backgroundImage: "radial-gradient(#185FA5 1px, transparent 1px)",
             backgroundSize: "24px 24px",
           }}
         />
@@ -54,7 +54,7 @@ export function HomeScreen() {
             <Link
               to="/submit"
               className="rounded-lg px-8 py-3.5 text-lg font-bold text-white shadow-lg transition-colors hover:opacity-90"
-              style={{ background: "#F57C00" }}
+              style={{ background: "#E24B4A" }}
             >
               Submit a Need
             </Link>
@@ -74,18 +74,18 @@ export function HomeScreen() {
           {/* Large Featured Stat */}
           <div className="relative col-span-1 flex flex-col justify-center overflow-hidden rounded-2xl border border-gray-100 bg-white p-10 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)] lg:col-span-7">
             <div className="pointer-events-none absolute bottom-[-20px] right-[-20px] opacity-[0.03]">
-              <svg className="h-60 w-60" viewBox="0 0 24 24" fill="currentColor" style={{ color: "#1A3C5E" }}>
+              <svg className="h-60 w-60" viewBox="0 0 24 24" fill="currentColor" style={{ color: "#185FA5" }}>
                 <path d="M3 13h2v8H3zm4-8h2v16H7zm4-2h2v18h-2zm4 4h2v14h-2zm4-2h2v16h-2z" />
               </svg>
             </div>
-            <h3 className="relative z-10 mb-3 text-[22px] font-bold" style={{ color: "#1A3C5E" }}>
+            <h3 className="relative z-10 mb-3 text-[22px] font-bold" style={{ color: "#185FA5" }}>
               Real-time Impact Tracking
             </h3>
             <p className="relative z-10 mb-8 max-w-md text-base leading-relaxed text-gray-500">
               Our AI validates and prioritizes submissions, generating actionable reports for local government units instantly.
             </p>
             <div className="relative z-10 flex items-end gap-6">
-              <div className="text-[48px] font-bold leading-none" style={{ color: "#1A3C5E" }}>
+              <div className="text-[48px] font-bold leading-none" style={{ color: "#185FA5" }}>
                 1,204
               </div>
               <div className="pb-2 text-sm font-medium uppercase tracking-wide text-gray-500">
@@ -98,25 +98,25 @@ export function HomeScreen() {
 
           {/* Small Stats */}
           <div className="col-span-1 flex flex-col gap-6 lg:col-span-5">
-            <div className="flex flex-grow flex-col justify-center rounded-2xl border border-gray-100 bg-white p-8 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)]" style={{ borderLeft: "6px solid #2E7D32" }}>
+            <div className="flex flex-grow flex-col justify-center rounded-2xl border border-gray-100 bg-white p-8 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)]" style={{ borderLeft: "6px solid #185FA5" }}>
               <div className="mb-3 flex items-center gap-3">
-                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" style={{ color: "#2E7D32" }}>
+                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" style={{ color: "#185FA5" }}>
                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
                 </svg>
                 <span className="text-lg font-semibold text-gray-700">Verified Submissions</span>
               </div>
-              <div className="text-4xl font-bold" style={{ color: "#1A3C5E" }}>
+              <div className="text-4xl font-bold" style={{ color: "#185FA5" }}>
                 89%
               </div>
             </div>
-            <div className="flex flex-grow flex-col justify-center rounded-2xl border border-gray-100 bg-white p-8 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)]" style={{ borderLeft: "6px solid #F57C00" }}>
+            <div className="flex flex-grow flex-col justify-center rounded-2xl border border-gray-100 bg-white p-8 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)]" style={{ borderLeft: "6px solid #E24B4A" }}>
               <div className="mb-3 flex items-center gap-3">
-                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" style={{ color: "#F57C00" }}>
+                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" style={{ color: "#E24B4A" }}>
                   <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
                 </svg>
                 <span className="text-lg font-semibold text-gray-700">Avg. Response Time</span>
               </div>
-              <div className="text-4xl font-bold" style={{ color: "#1A3C5E" }}>
+              <div className="text-4xl font-bold" style={{ color: "#185FA5" }}>
                 48 Hrs
               </div>
             </div>
@@ -128,7 +128,7 @@ export function HomeScreen() {
       <section className="mx-auto max-w-7xl bg-[#F5F6FA] px-6 pb-24 pt-32">
         <div className="mb-10 flex items-end justify-between">
           <div>
-            <h2 className="text-[28px] font-bold" style={{ color: "#1A3C5E" }}>
+            <h2 className="text-[28px] font-bold" style={{ color: "#185FA5" }}>
               Recent Submissions
             </h2>
             <p className="mt-2 text-base text-gray-500">
@@ -138,7 +138,7 @@ export function HomeScreen() {
           <Link
             to="/reports"
             className="hidden items-center font-bold transition-colors sm:flex"
-            style={{ color: "#1A3C5E" }}
+            style={{ color: "#185FA5" }}
           >
             View All
             <svg className="ml-1 h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
@@ -170,7 +170,7 @@ export function HomeScreen() {
                   </svg>
                   {sub.location}
                 </div>
-                <span className="rounded-full p-2 transition-colors hover:bg-gray-50" style={{ color: "#1A3C5E" }}>
+                <span className="rounded-full p-2 transition-colors hover:bg-gray-50" style={{ color: "#185FA5" }}>
                   <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M9.29 6.71c-.39.39-.39 1.02 0 1.41L13.17 12l-3.88 3.88c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l4.59-4.59c.39-.39.39-1.02 0-1.41L10.7 6.71c-.39-.39-1.02-.39-1.41 0z" />
                   </svg>
@@ -184,7 +184,7 @@ export function HomeScreen() {
           <Link
             to="/reports"
             className="inline-flex items-center font-bold"
-            style={{ color: "#1A3C5E" }}
+            style={{ color: "#185FA5" }}
           >
             View All Submissions
             <svg className="ml-1 h-5 w-5" viewBox="0 0 24 24" fill="currentColor">

@@ -2,7 +2,7 @@ import { Link } from "@tanstack/react-router";
 
 export function Footer() {
   return (
-    <footer className="mt-auto" style={{ background: "#1A3C5E" }}>
+    <footer className="mt-auto" style={{ background: "#0C447C" }}>
       <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-8 py-8 md:flex-row md:justify-between">
         <p className="order-2 text-sm font-medium text-white/70 md:order-1">
           &copy; 2024 NeedBridge Civic Technology. Empowering Barangay Governance.

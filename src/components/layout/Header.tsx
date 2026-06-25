@@ -18,7 +18,7 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full shadow-md" style={{ background: "#1A3C5E" }}>
+    <header className="sticky top-0 z-50 w-full shadow-md" style={{ background: "#185FA5" }}>
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
         <Link to="/" className="text-2xl font-bold tracking-tight text-white">
           NeedBridge
@@ -41,7 +41,7 @@ export function Header() {
           <Link
             to="/submit"
             className="rounded-lg px-5 py-2.5 font-semibold text-white transition hover:opacity-90"
-            style={{ background: "#F57C00" }}
+            style={{ background: "#E24B4A" }}
           >
             Submit Need
           </Link>
@@ -81,7 +81,7 @@ export function Header() {
               to="/submit"
               onClick={() => setMobileOpen(false)}
               className="mt-2 rounded-lg px-5 py-2.5 text-center font-semibold text-white"
-              style={{ background: "#F57C00" }}
+              style={{ background: "#E24B4A" }}
             >
               Submit Need
             </Link>
