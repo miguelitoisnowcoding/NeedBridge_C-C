@@ -77,14 +77,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
+      { title: "Need Bridge" },
+      { name: "description", content: "NeedBridge is a civic tech web platform that bridges the gap between community-reported infrastructure problems and actionable solutions." },
       { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { property: "og:title", content: "Need Bridge" },
+      { property: "og:description", content: "NeedBridge is a civic tech web platform that bridges the gap between community-reported infrastructure problems and actionable solutions." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "Need Bridge" },
+      { name: "twitter:description", content: "NeedBridge is a civic tech web platform that bridges the gap between community-reported infrastructure problems and actionable solutions." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/88a213f2-bb82-48db-a634-0d1f9cd43013/id-preview-785df52c--a2a67c10-e363-48bd-a75e-1a146359fa34.lovable.app-1782349532406.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/88a213f2-bb82-48db-a634-0d1f9cd43013/id-preview-785df52c--a2a67c10-e363-48bd-a75e-1a146359fa34.lovable.app-1782349532406.png" },
     ],
     links: [
       {
