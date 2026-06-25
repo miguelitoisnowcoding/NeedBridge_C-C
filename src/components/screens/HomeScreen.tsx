@@ -45,10 +45,10 @@ export function HomeScreen() {
         />
         <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-6 text-center">
           <h1 className="mb-6 text-[40px] font-bold leading-tight text-white">
-            Empowering Barangays with AI-Driven Infrastructure Solutions
+            See it. Solve it.
           </h1>
           <p className="mb-10 max-w-2xl text-lg leading-relaxed text-white/80">
-            Bridge the gap between community needs and government action. Report issues, get AI-suggested action plans, and track progress transparently.
+            From photo to plan — same day.
           </p>
           <div className="flex flex-col gap-5 sm:flex-row">
             <Link
