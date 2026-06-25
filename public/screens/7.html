@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>NeedBridge - Processing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#a9c9f2",
+                        "on-primary-container": "#87a7ce",
+                        "tertiary": "#3e1b00",
+                        "primary": "#002645",
+                        "on-secondary-fixed": "#002204",
+                        "surface-dim": "#d9dade",
+                        "secondary-fixed": "#a3f69c",
+                        "on-secondary": "#ffffff",
+                        "on-surface-variant": "#43474e",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#fe820e",
+                        "surface-container-low": "#f2f3f7",
+                        "surface-container-highest": "#e1e2e6",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#5f2c00",
+                        "surface-tint": "#416084",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "on-primary-fixed-variant": "#28496b",
+                        "on-background": "#191c1f",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#eff1f5",
+                        "on-surface": "#191c1f",
+                        "outline": "#73777f",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#1a3c5e",
+                        "secondary-container": "#a0f399",
+                        "background": "#f8f9fd",
+                        "surface-variant": "#e1e2e6",
+                        "surface-container-high": "#e7e8ec",
+                        "outline-variant": "#c3c6cf",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "surface-container": "#edeef2",
+                        "secondary-fixed-dim": "#88d982",
+                        "on-primary-fixed": "#001d36",
+                        "on-error": "#ffffff",
+                        "surface": "#f8f9fd",
+                        "secondary": "#1b6d24",
+                        "primary-fixed": "#d1e4ff",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#005312",
+                        "tertiary-fixed": "#ffdcc6",
+                        "inverse-primary": "#a9c9f2",
+                        "error-container": "#ffdad6",
+                        "surface-bright": "#f8f9fd",
+                        "on-tertiary-fixed": "#311300",
+                        "on-secondary-container": "#217128",
+                        "inverse-surface": "#2e3134"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "container-max": "1280px",
+                        "stack-md": "1rem",
+                        "stack-lg": "2rem",
+                        "gutter": "1.5rem",
+                        "margin-mobile": "1rem",
+                        "margin-desktop": "2rem",
+                        "stack-sm": "0.5rem"
+                    },
+                    "fontFamily": {
+                        "page-title-mobile": ["Inter"],
+                        "card-header": ["Inter"],
+                        "section-title": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "page-title": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "page-title-mobile": ["22px", { "lineHeight": "28px", "fontWeight": "700" }],
+                        "card-header": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "section-title": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "label-sm": ["13px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "page-title": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-md": ["15px", { "lineHeight": "22px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .pulse-text {
+            animation: pulseText 1.5s infinite;
+        }
+        @keyframes pulseText {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        .progress-bar-fill {
+            animation: fillProgress 4s ease-in-out infinite;
+        }
+        @keyframes fillProgress {
+            0% { width: 0%; }
+            50% { width: 100%; }
+            100% { width: 0%; left: 100%; }
+        }
+    </style>
+</head>
+<body class="text-on-surface min-h-screen flex flex-col font-body-md bg-surface-container-low">
+<!-- TopNavBar -->
+<header class="bg-[#1A3C5E] text-white sticky top-0 w-full z-50 shadow-md">
+<div class="flex justify-between items-center w-full px-8 max-w-7xl mx-auto h-20">
+<!-- Logo -->
+<div class="text-2xl font-bold tracking-tight w-1/4">
+            NeedBridge
+        </div>
+<!-- Desktop Nav -->
+<nav class="hidden md:flex gap-8 items-center justify-center flex-1">
+<a class="text-white font-medium border-b-2 border-white pb-1 transition-opacity" href="#">Home</a>
+<a class="bg-[#F57C00] text-white px-5 py-2 rounded-lg font-semibold hover:bg-[#F57C00]/90 transition-colors" href="#">Submit Need</a>
+<a class="text-white/80 hover:text-white transition-colors font-medium" href="#">Reports</a>
+</nav>
+<!-- Right Side: Language Toggle & Mobile Menu -->
+<div class="flex items-center justify-end gap-4 w-1/4">
+<!-- Language Toggle Pill -->
+<div class="hidden md:flex items-center bg-[#284E75] rounded-full p-1 text-sm font-medium">
+<button class="bg-white text-[#1A3C5E] px-4 py-1.5 rounded-full shadow-sm transition-colors">
+                    EN
+                </button>
+<button class="text-white px-4 py-1.5 rounded-full hover:bg-white/10 transition-colors">
+                    FIL
+                </button>
+</div>
+<!-- Mobile Menu Button -->
+<button class="md:hidden text-white p-2">
+<span class="material-symbols-outlined text-2xl">menu</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow flex items-center justify-center p-margin-mobile md:p-margin-desktop">
+<div class="bg-surface-container-lowest border border-outline-variant rounded-xl p-8 md:p-12 max-w-lg w-full flex flex-col items-center gap-8 shadow-sm">
+<!-- Animated SVG -->
+<div class="w-[120px] h-[120px]">
+<!-- STITCH_SVG_START:ANIMATION_9 class="w-full h-full" --><div class="w-full h-full" id="animated-svg-ANIMATION_9" style="display:block;"><svg fill="none" height="120" viewbox="0 0 120 120" width="120" xmlns="http://www.w3.org/2000/svg">
+<circle cx="60" cy="60" r="50" stroke="#E2E8F0" stroke-width="8"></circle>
+<path d="M60 10C32.3858 10 10 32.3858 10 60" stroke="#1a3c5e" stroke-linecap="round" stroke-width="8">
+<animatetransform attributename="transform" dur="1.5s" from="0 60 60" repeatcount="indefinite" to="360 60 60" type="rotate"></animatetransform>
+</path>
+<circle cx="60" cy="60" fill="#1a3c5e" r="15">
+<animate attributename="opacity" dur="2s" repeatcount="indefinite" values="1;0.4;1"></animate>
+</circle>
+</svg></div><!-- STITCH_SVG_END:ANIMATION_9 -->
+</div>
+<!-- Steps -->
+<div class="w-full space-y-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary text-2xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="font-card-header text-card-header text-on-surface-variant">Identifying issue type... (IBM Watsonx)</span>
+</div>
+<div class="flex items-center gap-4 pulse-text">
+<span class="material-symbols-outlined text-outline-variant text-2xl">pending</span>
+<span class="font-card-header text-card-header text-primary font-bold">Determining severity...</span>
+</div>
+<div class="flex items-center gap-4 opacity-50">
+<span class="material-symbols-outlined text-outline-variant text-2xl">radio_button_unchecked</span>
+<span class="font-card-header text-card-header text-on-surface-variant">Generating response plan... (Claude API)</span>
+</div>
+</div>
+<!-- Progress Bar -->
+<div class="w-full h-2 bg-surface-container-highest rounded-full overflow-hidden relative">
+<div class="absolute top-0 left-0 h-full bg-primary-container progress-bar-fill rounded-full"></div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#1A3C5E] text-white mt-auto">
+<div class="max-w-7xl mx-auto px-8 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<div class="text-sm font-medium text-white/70 order-2 md:order-1">
+    © 2024 NeedBridge Civic Technology. Empowering Barangay Governance.
+  </div>
+<nav class="flex flex-wrap justify-center gap-x-8 gap-y-2 order-1 md:order-2">
+<a class="text-white/80 hover:text-white transition-colors text-sm font-medium" href="#">Privacy Policy</a>
+<a class="text-white/80 hover:text-white transition-colors text-sm font-medium" href="#">Terms of Service</a>
+<a class="text-white/80 hover:text-white transition-colors text-sm font-medium" href="#">Contact Us</a>
+</nav>
+</div>
+</footer>
+</body></html>
