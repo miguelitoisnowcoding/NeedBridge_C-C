@@ -1,0 +1,355 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>AI Response Dashboard - NeedBridge</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "on-error": "#ffffff",
+                "tertiary-fixed-dim": "#ffb786",
+                "surface-tint": "#416084",
+                "background": "#f5f6fa",
+                "primary-container": "#1a3c5e",
+                "on-error-container": "#93000a",
+                "outline-variant": "#c3c6cf",
+                "inverse-surface": "#2e3134",
+                "tertiary-container": "#5f2c00",
+                "primary-fixed-dim": "#a9c9f2",
+                "on-tertiary-fixed": "#311300",
+                "on-tertiary": "#ffffff",
+                "on-primary": "#ffffff",
+                "tertiary": "#3e1b00",
+                "error": "#ba1a1a",
+                "surface-container-lowest": "#ffffff",
+                "surface-container-highest": "#e1e2e6",
+                "surface": "#ffffff",
+                "surface-container-high": "#e7e8ec",
+                "secondary-fixed": "#a3f69c",
+                "primary": "#002645",
+                "on-secondary-fixed-variant": "#005312",
+                "on-primary-fixed-variant": "#28496b",
+                "on-primary-container": "#87a7ce",
+                "on-background": "#191c1f",
+                "on-secondary-container": "#217128",
+                "error-container": "#ffdad6",
+                "surface-dim": "#d9dade",
+                "secondary": "#1b6d24",
+                "primary-fixed": "#d1e4ff",
+                "surface-container-low": "#f2f3f7",
+                "surface-container": "#edeef2",
+                "secondary-fixed-dim": "#88d982",
+                "secondary-container": "#a0f399",
+                "on-tertiary-container": "#fe820e",
+                "inverse-on-surface": "#eff1f5",
+                "surface-bright": "#f8f9fd",
+                "on-tertiary-fixed-variant": "#723600",
+                "tertiary-fixed": "#ffdcc6",
+                "outline": "#73777f",
+                "on-surface-variant": "#43474e",
+                "on-surface": "#191c1f",
+                "surface-variant": "#e1e2e6",
+                "on-secondary": "#ffffff",
+                "inverse-primary": "#a9c9f2",
+                "on-primary-fixed": "#001d36",
+                "on-secondary-fixed": "#002204"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "stack-lg": "2rem",
+                "margin-mobile": "1rem",
+                "container-max": "1280px",
+                "stack-md": "1rem",
+                "stack-sm": "0.5rem",
+                "gutter": "1.5rem",
+                "margin-desktop": "2rem"
+        },
+        "fontFamily": {
+                "card-header": [
+                        "Inter"
+                ],
+                "body-md": [
+                        "Inter"
+                ],
+                "section-title": [
+                        "Inter"
+                ],
+                "page-title": [
+                        "Inter"
+                ],
+                "label-sm": [
+                        "Inter"
+                ],
+                "page-title-mobile": [
+                        "Inter"
+                ]
+        },
+        "fontSize": {
+                "card-header": [
+                        "18px",
+                        {
+                                "lineHeight": "24px",
+                                "fontWeight": "600"
+                        }
+                ],
+                "body-md": [
+                        "15px",
+                        {
+                                "lineHeight": "22px",
+                                "fontWeight": "400"
+                        }
+                ],
+                "section-title": [
+                        "24px",
+                        {
+                                "lineHeight": "32px",
+                                "letterSpacing": "-0.01em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "page-title": [
+                        "28px",
+                        {
+                                "lineHeight": "36px",
+                                "letterSpacing": "-0.02em",
+                                "fontWeight": "700"
+                        }
+                ],
+                "label-sm": [
+                        "13px",
+                        {
+                                "lineHeight": "16px",
+                                "letterSpacing": "0.01em",
+                                "fontWeight": "500"
+                        }
+                ],
+                "page-title-mobile": [
+                        "22px",
+                        {
+                                "lineHeight": "28px",
+                                "fontWeight": "700"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script>
+<style>
+        /* Specific accent colors required by prompt */
+        .accent-actnow { border-top-color: #2E7D32; }
+        .bg-actnow { background-color: #2E7D32; }
+        .text-actnow { color: #2E7D32; }
+        
+        .accent-buildit { border-top-color: #F57C00; }
+        .bg-buildit { background-color: #F57C00; }
+        .text-buildit { color: #F57C00; }
+        
+        .accent-gov { border-top-color: #37474F; }
+        .bg-gov { background-color: #37474F; }
+        .text-gov { color: #37474F; }
+
+        .ai-container {
+            background-color: #F5F6FA;
+        }
+        
+        .card-equal-height {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md text-body-md">
+<!-- TopNavBar -->
+<header class="bg-[#002645] text-white sticky top-0 w-full z-50 shadow-md">
+<div class="flex justify-between items-center w-full px-8 max-w-7xl mx-auto h-20">
+<!-- Logo -->
+<div class="text-2xl font-bold tracking-tight w-1/4">
+            NeedBridge
+        </div>
+<!-- Desktop Nav -->
+<nav class="hidden md:flex gap-8 items-center justify-center flex-1">
+<a class="text-white/80 hover:text-white transition-colors font-medium" href="#">Home</a>
+<a class="text-white font-medium border-b-2 border-white pb-1 transition-opacity" href="#">Submit Need</a>
+<a class="text-white/80 hover:text-white transition-colors font-medium" href="#">Reports</a>
+</nav>
+<!-- Right Side: Actions & Language Toggle -->
+<div class="flex items-center justify-end gap-4 w-1/3">
+<div class="hidden md:flex items-center gap-3">
+<button class="flex items-center gap-2 px-4 py-2 border border-white text-white rounded font-bold hover:bg-white/10 transition-colors text-sm">
+<span class="material-symbols-outlined text-[18px]">download</span> Download PDF
+</button>
+<button class="flex items-center gap-2 px-4 py-2 bg-[#F57C00] text-white rounded font-bold hover:bg-[#E65100] transition-colors text-sm">
+<span class="material-symbols-outlined text-[18px]">share</span> Share Plan
+</button>
+</div>
+<!-- Language Toggle Pill -->
+<div class="hidden md:flex items-center bg-[#28496b] rounded-full p-1 text-sm font-medium">
+<button class="bg-white text-[#002645] px-4 py-1.5 rounded-full shadow-sm transition-colors">
+                    EN
+                </button>
+<button class="text-white px-4 py-1.5 rounded-full hover:bg-white/10 transition-colors">
+                    FIL
+                </button>
+</div>
+<!-- Mobile Menu Button -->
+<button class="md:hidden text-white p-2">
+<span class="material-symbols-outlined text-2xl">menu</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Issue Summary Bar -->
+<div class="bg-white border-b border-outline-variant w-full shadow-sm">
+<div class="px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto py-6 flex flex-col md:flex-row items-start md:items-center gap-6 justify-between">
+<div class="flex flex-row items-center gap-6">
+<!-- Thumbnail Placeholder -->
+<div class="w-[80px] h-[80px] bg-surface-variant rounded-xl flex items-center justify-center border border-outline-variant shrink-0 overflow-hidden">
+<span class="material-symbols-outlined text-outline text-4xl" data-icon="image">image</span>
+</div>
+<!-- Content -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-3 flex-wrap">
+<h1 class="text-[20px] font-bold text-on-surface m-0 leading-tight">Clogged Drainage</h1>
+<span class="bg-surface-container text-on-surface-variant px-2 py-0.5 rounded text-xs font-semibold border border-outline-variant">Infrastructure</span>
+</div>
+<div class="flex flex-wrap items-center gap-4">
+<span class="bg-[#C62828] text-white px-3 py-1 rounded text-sm font-bold uppercase tracking-wider">High Severity</span>
+<span class="text-on-surface-variant text-sm flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px]" data-icon="location_on">location_on</span> Barangay 123</span>
+<span class="text-on-surface-variant text-sm flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px]" data-icon="schedule">schedule</span> Today, 08:45 AM</span>
+</div>
+</div>
+</div>
+<!-- Mobile Actions (Hidden on Desktop) -->
+<div class="flex gap-3 mt-4 md:hidden w-full">
+<button class="flex-1 flex justify-center items-center gap-2 px-4 py-2 border border-primary text-primary rounded font-bold hover:bg-surface-container-low transition-colors text-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="download">download</span> PDF
+</button>
+<button class="flex-1 flex justify-center items-center gap-2 px-4 py-2 bg-[#F57C00] text-white rounded font-bold hover:bg-[#E65100] transition-colors text-sm shadow-sm">
+<span class="material-symbols-outlined text-[18px]" data-icon="share">share</span> Share
+</button>
+</div>
+</div>
+</div>
+<!-- Main Content Canvas -->
+<main class="flex-grow w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto py-8 md:py-12 flex flex-col gap-8">
+<!-- AI Plan Container Wrap -->
+<div class="ai-container rounded-xl p-0 md:p-2 flex flex-col gap-8 relative">
+<div class="relative z-10 px-2 md:px-4">
+<h2 class="text-section-title font-section-title text-primary-container mb-4 flex items-center gap-3">
+<span class="material-symbols-outlined text-[28px]" data-icon="smart_toy">smart_toy</span>
+                    AI Recommended Action Plan
+                </h2>
+<p class="text-on-surface-variant max-w-3xl text-[15px] leading-relaxed">Based on the submitted data and historical infrastructure patterns in Barangay 123, the following three-tiered response plan has been generated to address the severe drainage blockage and prevent immediate flooding.</p>
+</div>
+<!-- Bento Grid Layout for Cards -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 relative z-10 items-stretch">
+<!-- ActNow Card -->
+<div class="bg-white rounded-xl border border-outline-variant shadow-sm card-equal-height">
+<div class="bg-actnow text-white p-5 flex items-center gap-3 rounded-t-xl">
+<span class="material-symbols-outlined text-[24px]" data-icon="group_work">group_work</span>
+<h3 class="text-card-header font-card-header text-xl">ActNow</h3>
+</div>
+<div class="p-6 flex-grow flex flex-col gap-6">
+<div>
+<h4 class="font-bold text-on-surface mb-3 text-sm uppercase tracking-wider border-b border-surface-variant pb-2">Immediate Actions</h4>
+<ul class="space-y-3 mt-4">
+<li class="flex items-start gap-3 text-[14px] text-on-surface-variant">
+<span class="material-symbols-outlined text-actnow text-[20px] shrink-0" data-icon="check_circle">check_circle</span>
+<span class="pt-0.5">Clear surface debris (leaves, plastic) blocking the primary grate.</span>
+</li>
+<li class="flex items-start gap-3 text-[14px] text-on-surface-variant">
+<span class="material-symbols-outlined text-actnow text-[20px] shrink-0" data-icon="check_circle">check_circle</span>
+<span class="pt-0.5">Place temporary warning signs or cones around the flooded zone.</span>
+</li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-on-surface mb-3 text-sm uppercase tracking-wider border-b border-surface-variant pb-2">Short-Term Coordination</h4>
+<ul class="space-y-3 mt-4">
+<li class="flex items-start gap-3 text-[14px] text-on-surface-variant">
+<span class="material-symbols-outlined text-actnow text-[20px] shrink-0" data-icon="check_circle">check_circle</span>
+<span class="pt-0.5">Organize 5-person volunteer cleanup detail for safe perimeter clearing.</span>
+</li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-on-surface mb-3 text-sm uppercase tracking-wider border-b border-surface-variant pb-2">Resources Needed</h4>
+<ul class="space-y-3 mt-4">
+<li class="flex items-start gap-3 text-[14px] text-on-surface-variant">
+<span class="material-symbols-outlined text-actnow text-[20px] shrink-0" data-icon="check_circle">check_circle</span>
+<span class="pt-0.5">Trash bags, work gloves, safety vests, traffic cones.</span>
+</li>
+</ul>
+</div>
+<div class="mt-auto pt-6 border-t border-surface-variant flex flex-col gap-3">
+<button class="w-full py-3 bg-white text-[#2E7D32] rounded-lg font-bold hover:bg-[#E8F5E9] transition-colors border-2 border-[#2E7D32] flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-xl" data-icon="flag">flag</span> Flag for City Engineering Office
+            </button>
+</div>
+</div>
+</div>
+<!-- BuildIt Card -->
+<div class="bg-white rounded-xl border border-outline-variant shadow-sm card-equal-height">
+<div class="bg-buildit text-white p-5 flex items-center gap-3 rounded-t-xl">
+<span class="material-symbols-outlined text-[24px]" data-icon="handyman">handyman</span>
+<h3 class="text-card-header font-card-header text-xl">BuildIt</h3>
+</div>
+<div class="p-6 flex-grow flex flex-col gap-6">
+<div>
+<h4 class="font-bold text-on-surface text-[16px] mb-3">Perimeter Seal &amp; Debris Snake</h4>
+<div class="flex gap-3 mb-2 flex-wrap">
+<span class="bg-surface-container text-on-surface-variant px-2.5 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5 border border-outline-variant"><span class="material-symbols-outlined text-[16px]" data-icon="construction">construction</span> Medium Difficulty</span>
+<span class="bg-surface-container text-on-surface-variant px-2.5 py-1.5 rounded-md text-xs font-semibold flex items-center gap-1.5 border border-outline-variant"><span class="material-symbols-outlined text-[16px]" data-icon="timer">timer</span> 4 Hours</span>
+</div>
+</div>
+<div class="flex-grow">
+<h4 class="font-bold text-on-surface mb-3 text-sm uppercase tracking-wider border-b border-surface-variant pb-2">Parts Checklist</h4>
+<ul class="space-y-0 mt-4 border border-outline-variant rounded-lg overflow-hidden">
+<li class="flex items-center justify-between text-[14px] text-on-surface p-3 bg-white border-b border-outline-variant last:border-b-0">
+<span class="flex items-center gap-3"><span class="material-symbols-outlined text-outline text-[20px]" data-icon="check_box_outline_blank">check_box_outline_blank</span> Heavy-duty drain snake (10m)</span>
+<span class="font-mono text-sm font-semibold text-on-surface-variant">₱850.00</span>
+</li>
+<li class="flex items-center justify-between text-[14px] text-on-surface p-3 bg-white border-b border-outline-variant last:border-b-0">
+<span class="flex items-center gap-3"><span class="material-symbols-outlined text-outline text-[20px]" data-icon="check_box_outline_blank">check_box_outline_blank</span> Fast-setting hydraulic cement (5kg)</span>
+<span class="font-mono text-sm font-semibold text-on-surface-variant">₱320.00</span>
+</li>
+<li class="flex items-center justify-between text-[14px] text-on-surface p-3 bg-white border-b border-outline-variant last:border-b-0">
+<span class="flex items-center gap-3"><span class="material-symbols-outlined text-outline text-[20px]" data-icon="check_box_outline_blank">check_box_outline_blank</span> Joint reinforcing mesh</span>
+<span class="font-mono text-sm font-semibold text-on-surface-variant">₱150.00</span>
+</li>
+</ul>
+</div>
+<div class="mt-auto pt-6 border-t border-surface-variant flex flex-col gap-3">
+<button class="w-full py-3 bg-[#F57C00] text-white rounded-lg font-bold hover:bg-[#E65100] transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-xl" data-icon="menu_book">menu_book</span> View Full Build Guide
+            </button>
+<button class="w-full py-3 border-2 border-outline text-on-surface rounded-lg font-bold hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-xl" data-icon="shopping_cart">shopping_cart</span> Search on Shopee
+            </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-[#1A3C5E] text-white border-t border-outline-variant full-width bottom-0 mt-auto">
+<div class="w-full py-6 px-margin-desktop max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-4"><p class="text-sm text-[#87a7ce]">© 2024 NeedBridge Civic Technology. Empowering Barangay Governance.</p><div class="flex gap-x-8"><a class="text-label-sm font-label-sm text-[#87a7ce] hover:text-white transition-colors" href="#">About Us</a><a class="text-label-sm font-label-sm text-[#87a7ce] hover:text-white transition-colors" href="#">Privacy Policy</a><a class="text-label-sm font-label-sm text-[#87a7ce] hover:text-white transition-colors" href="#">Terms of Service</a><a class="text-label-sm font-label-sm text-[#87a7ce] hover:text-white transition-colors" href="#">Contact Support</a></div></div>
+</footer>
+
+
+
+
+</body></html>

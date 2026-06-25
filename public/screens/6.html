@@ -1,0 +1,303 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Submit a Need - NeedBridge</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "on-primary-fixed-variant": "#28496b",
+                        "on-background": "#191c1f",
+                        "surface-tint": "#416084",
+                        "on-secondary-fixed": "#002204",
+                        "error": "#ba1a1a",
+                        "surface": "#f8f9fd",
+                        "inverse-on-surface": "#eff1f5",
+                        "surface-container-high": "#e7e8ec",
+                        "primary-fixed": "#d1e4ff",
+                        "surface-bright": "#f8f9fd",
+                        "primary-container": "#1a3c5e",
+                        "on-surface": "#191c1f",
+                        "secondary-container": "#a0f399",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#87a7ce",
+                        "tertiary-container": "#5f2c00",
+                        "on-tertiary-container": "#fe820e",
+                        "on-secondary-fixed-variant": "#005312",
+                        "on-surface-variant": "#43474e",
+                        "primary-fixed-dim": "#a9c9f2",
+                        "on-primary": "#ffffff",
+                        "outline-variant": "#c3c6cf",
+                        "outline": "#73777f",
+                        "inverse-surface": "#2e3134",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#001d36",
+                        "surface-dim": "#d9dade",
+                        "on-tertiary-fixed": "#311300",
+                        "background": "#f8f9fd",
+                        "surface-container-low": "#f2f3f7",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#edeef2",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "on-error": "#ffffff",
+                        "secondary": "#1b6d24",
+                        "inverse-primary": "#a9c9f2",
+                        "tertiary": "#3e1b00",
+                        "surface-container-highest": "#e1e2e6",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "secondary-fixed": "#a3f69c",
+                        "surface-variant": "#e1e2e6",
+                        "tertiary-fixed": "#ffdcc6",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#88d982",
+                        "primary": "#002645",
+                        "on-secondary-container": "#217128",
+                        "error-container": "#ffdad6",
+                        // Prompt Specific Overrides (mapped to theme keys where possible to maintain consistency, but added custom for specific prompt requirements)
+                        "nb-navy": "#1A3C5E", // Maps roughly to primary-container
+                        "nb-amber": "#F57C00", // Maps roughly to on-tertiary-container, but distinct
+                        "nb-bg": "#F5F6FA"    // Maps roughly to background
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "0.75rem"
+                    },
+                    spacing: {
+                        "margin-desktop": "2rem",
+                        "gutter": "1.5rem",
+                        "container-max": "1280px",
+                        "stack-sm": "0.5rem",
+                        "stack-md": "1rem",
+                        "margin-mobile": "1rem",
+                        "stack-lg": "2rem"
+                    },
+                    fontFamily: {
+                        "card-header": ["Inter", "sans-serif"],
+                        "section-title": ["Inter", "sans-serif"],
+                        "page-title-mobile": ["Inter", "sans-serif"],
+                        "label-sm": ["Inter", "sans-serif"],
+                        "page-title": ["Inter", "sans-serif"],
+                        "body-md": ["Inter", "sans-serif"]
+                    },
+                    fontSize: {
+                        "card-header": ["18px", { lineHeight: "24px", fontWeight: "600" }],
+                        "section-title": ["24px", { lineHeight: "32px", letterSpacing: "-0.01em", fontWeight: "700" }],
+                        "page-title-mobile": ["22px", { lineHeight: "28px", fontWeight: "700" }],
+                        "label-sm": ["13px", { lineHeight: "16px", letterSpacing: "0.01em", fontWeight: "500" }],
+                        "page-title": ["28px", { lineHeight: "36px", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "body-md": ["15px", { lineHeight: "22px", fontWeight: "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body { background-color: theme('colors.nb-bg'); }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined.filled { font-variation-settings: 'FILL' 1; }
+    </style>
+</head>
+<body class="font-body-md text-on-surface antialiased flex flex-col min-h-screen">
+<!-- TopNavBar -->
+<header class="bg-primary dark:bg-primary-container text-on-primary dark:text-on-primary-container font-body-md text-body-md docked full-width top-0 bg-primary dark:bg-primary-container flat no shadows hover:bg-primary-container/50 transition-colors Active: scale-95 duration-150 flex justify-between items-center px-margin-desktop w-full h-16 max-w-container-max mx-auto z-50 sticky top-0 shadow-sm border-b border-nb-navy/10">
+<div class="flex items-center gap-8">
+<a class="text-page-title font-page-title text-on-primary dark:text-on-primary-container font-extrabold tracking-tight" href="#">NeedBridge</a>
+<nav class="hidden md:flex gap-6 items-center pt-1">
+<a class="text-on-primary-fixed-variant opacity-90 hover:opacity-100 transition-opacity pb-4" href="#">Home</a>
+<a class="text-on-primary-fixed-variant opacity-90 hover:opacity-100 transition-opacity pb-4" href="#">Reports</a>
+<a class="text-on-primary font-bold border-b-2 border-secondary-fixed pb-4" href="#">Submissions</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex bg-on-primary/10 rounded-full p-1 cursor-pointer hover:bg-on-primary/20 transition-colors">
+<span class="px-3 py-1 bg-white text-nb-navy rounded-full font-label-sm text-label-sm font-bold shadow-sm">EN</span>
+<span class="px-3 py-1 text-white/80 rounded-full font-label-sm text-label-sm">FIL</span>
+</div>
+<button class="hidden md:block border border-on-primary text-on-primary px-4 py-2 rounded-lg font-label-sm text-label-sm font-bold hover:bg-on-primary/10 transition-colors">
+                Sign In
+            </button>
+<button class="bg-nb-amber text-white px-5 py-2 rounded-lg font-label-sm text-label-sm font-bold shadow-md hover:bg-nb-amber/90 transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-[18px]">add</span>
+                Submit Need
+            </button>
+<button class="md:hidden text-on-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-desktop py-stack-lg flex flex-col gap-8">
+<!-- Progress Indicator -->
+<div class="w-full max-w-3xl mx-auto mb-4">
+<div class="flex items-center justify-between relative">
+<!-- Line background -->
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-full h-1 bg-surface-container-high rounded-full -z-10"></div>
+<!-- Active Line -->
+<div class="absolute left-0 top-1/2 -translate-y-1/2 w-[10%] h-1 bg-nb-amber rounded-full -z-10 transition-all duration-500"></div>
+<!-- Step 1 -->
+<div class="flex flex-col items-center gap-2 bg-nb-bg px-2">
+<div class="w-8 h-8 rounded-full bg-nb-amber text-white flex items-center justify-center font-bold font-label-sm text-label-sm shadow-sm ring-4 ring-nb-bg">1</div>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Describe Issue</span>
+</div>
+<!-- Step 2 -->
+<div class="flex flex-col items-center gap-2 bg-nb-bg px-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-outline flex items-center justify-center font-bold font-label-sm text-label-sm ring-4 ring-nb-bg">2</div>
+<span class="font-label-sm text-label-sm text-outline">Review AI Plan</span>
+</div>
+<!-- Step 3 -->
+<div class="flex flex-col items-center gap-2 bg-nb-bg px-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high text-outline flex items-center justify-center font-bold font-label-sm text-label-sm ring-4 ring-nb-bg">3</div>
+<span class="font-label-sm text-label-sm text-outline">Confirm</span>
+</div>
+</div>
+</div>
+<!-- Page Header -->
+<div class="flex flex-col gap-2">
+<h1 class="font-page-title text-page-title text-nb-navy">Report Infrastructure Need</h1>
+<p class="text-on-surface-variant max-w-2xl">Please provide details about the issue. The more accurate your report, the faster the barangay can allocate resources and address the problem.</p>
+</div>
+<!-- Two Column Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-start">
+<!-- Left Column (Form) -->
+<div class="lg:col-span-7 bg-surface-container-lowest rounded-xl border border-outline-variant/50 p-6 sm:p-8 flex flex-col gap-8 shadow-[0px_4px_12px_rgba(0,0,0,0.02)]">
+<!-- Photo Upload -->
+<div class="flex flex-col gap-2">
+<label class="font-label-sm text-label-sm text-on-surface font-bold">Evidence (Required)</label>
+<div class="w-full h-[180px] border-2 border-dashed border-nb-navy/30 rounded-xl bg-surface-container-low/50 flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-surface-container-low transition-colors group">
+<div class="w-12 h-12 rounded-full bg-nb-navy/10 flex items-center justify-center text-nb-navy group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[28px]">add_a_photo</span>
+</div>
+<div class="text-center">
+<p class="font-body-md text-body-md font-semibold text-nb-navy">Upload a photo of the issue</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant mt-1">Drag and drop, or click to browse (Max 5MB)</p>
+</div>
+</div>
+</div>
+<!-- Category -->
+<div class="flex flex-col gap-3">
+<label class="font-label-sm text-label-sm text-on-surface font-bold">Category</label>
+<div class="flex flex-wrap gap-3">
+<button class="px-5 py-2.5 rounded-full border border-nb-navy bg-nb-navy text-white font-label-sm text-label-sm font-semibold transition-colors">Infrastructure</button>
+<button class="px-5 py-2.5 rounded-full border border-outline-variant text-on-surface-variant hover:border-nb-navy hover:text-nb-navy font-label-sm text-label-sm transition-colors">Water</button>
+<button class="px-5 py-2.5 rounded-full border border-outline-variant text-on-surface-variant hover:border-nb-navy hover:text-nb-navy font-label-sm text-label-sm transition-colors">Safety</button>
+<button class="px-5 py-2.5 rounded-full border border-outline-variant text-on-surface-variant hover:border-nb-navy hover:text-nb-navy font-label-sm text-label-sm transition-colors">Other</button>
+</div>
+</div>
+<!-- Description -->
+<div class="flex flex-col gap-2">
+<div class="flex justify-between items-end">
+<label class="font-label-sm text-label-sm text-on-surface font-bold" for="description">Detailed Description</label>
+<span class="font-label-sm text-label-sm text-outline text-[11px]">0/500</span>
+</div>
+<textarea class="w-full rounded-lg border border-outline-variant bg-surface-bright px-4 py-3 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-nb-navy focus:border-nb-navy resize-none placeholder-on-surface-variant/50" id="description" placeholder="Describe the severity, exact location details, and how long the issue has been present..." rows="4"></textarea>
+</div>
+<!-- Location -->
+<div class="flex flex-col gap-2">
+<label class="font-label-sm text-label-sm text-on-surface font-bold" for="location">Specific Location</label>
+<div class="relative">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-nb-navy">
+<span class="material-symbols-outlined text-[20px] filled">location_on</span>
+</div>
+<input class="w-full rounded-lg border border-outline-variant bg-surface-bright pl-10 pr-4 py-3 font-body-md text-body-md text-on-surface focus:ring-2 focus:ring-nb-navy focus:border-nb-navy placeholder-on-surface-variant/50" id="location" placeholder="E.g., Corner of Rizal St. and Mabini Ave." type="text">
+</div>
+</div>
+<!-- Action -->
+<div class="pt-4 border-t border-outline-variant/30 mt-2">
+<button class="w-full bg-nb-amber text-white py-4 rounded-xl font-card-header text-card-header shadow-md hover:bg-nb-amber/90 hover:shadow-lg transition-all active:scale-[0.99] flex justify-center items-center gap-2">
+                        Continue to AI Plan
+                        <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+<p class="text-center font-label-sm text-label-sm text-outline mt-3 flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[14px]">lock</span>
+                        Your report will be processed securely.
+                    </p>
+</div>
+</div>
+<!-- Right Column (Tips & Map) -->
+<div class="lg:col-span-5 flex flex-col gap-6">
+<!-- Map Section -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant/50 overflow-hidden shadow-[0px_4px_12px_rgba(0,0,0,0.02)] flex flex-col h-[300px] relative group">
+<!-- Faux Map Background -->
+<div class="absolute inset-0 bg-surface-container-low">
+<div class="w-full h-full bg-cover bg-center opacity-60 mix-blend-multiply" data-alt="A clean, minimalist digital map interface showing a grid of city streets with a subtle light-blue and gray color palette. The map aesthetic is highly professional, matching a modern civic tech dashboard, with soft lighting and a bright, trustworthy mood." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCmqJAUa02dqmES7qf-nm48X95cgIBmC41XVr8siIpm07VW7ZNCDtaJDNYdQ__6yk91unnSJymYvA6_IkqXbh4zoTgp-Jrf8TVhq1FqcWwlH58IhLhDDuOVXx3FwTBOgvhvWL-qQhqj5wT02pjNUxcgdS6lirXmtw9qMlbSVyqCcJB8O1UdFeHf7jONYri2_H9cXhXqoRw1yDNYmnHIbV7Kj_9mRrrBpm83xOKNi5z-z7hFrI3nlAEfDCo7p6atUDVUs3BMWNyM075y')"></div>
+</div>
+<!-- Map Content Overlay -->
+<div class="relative z-10 p-4 bg-gradient-to-b from-white/80 to-transparent">
+<h3 class="font-card-header text-card-header text-nb-navy flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">map</span>
+                            Verify Location
+                        </h3>
+</div>
+<!-- Center Pin -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center">
+<div class="w-12 h-12 bg-nb-amber/20 rounded-full animate-pulse absolute -z-10"></div>
+<span class="material-symbols-outlined text-nb-navy text-[32px] filled drop-shadow-md">location_on</span>
+</div>
+<!-- Map Actions -->
+<div class="absolute bottom-4 left-4 right-4 flex justify-between gap-2 z-10">
+<button class="flex-1 bg-nb-navy text-white py-2.5 px-4 rounded-lg font-label-sm text-label-sm font-semibold shadow-md hover:bg-nb-navy/90 transition-colors flex items-center justify-center gap-2 backdrop-blur-sm">
+<span class="material-symbols-outlined text-[18px]">my_location</span>
+                            Use Current Location
+                        </button>
+</div>
+</div>
+<!-- Tips Heading -->
+<h3 class="font-card-header text-card-header text-on-surface mt-2">Submission Guidelines</h3>
+<!-- Tip Cards -->
+<div class="flex flex-col gap-3">
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant/50 p-4 shadow-[0px_2px_8px_rgba(0,0,0,0.02)] flex gap-4 items-start hover:border-nb-amber/30 transition-colors">
+<div class="w-10 h-10 rounded-full bg-nb-amber/10 text-nb-amber flex items-center justify-center shrink-0 mt-1">
+<span class="material-symbols-outlined">photo_camera</span>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm font-bold text-on-surface mb-1">Clear Evidence</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Ensure your photo is well-lit and clearly shows the extent of the infrastructure issue.</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant/50 p-4 shadow-[0px_2px_8px_rgba(0,0,0,0.02)] flex gap-4 items-start hover:border-nb-navy/30 transition-colors">
+<div class="w-10 h-10 rounded-full bg-nb-navy/10 text-nb-navy flex items-center justify-center shrink-0 mt-1">
+<span class="material-symbols-outlined">push_pin</span>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm font-bold text-on-surface mb-1">Precise Location</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Use landmarks or specific street intersections if the exact address is unknown.</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-lg border border-outline-variant/50 p-4 shadow-[0px_2px_8px_rgba(0,0,0,0.02)] flex gap-4 items-start hover:border-secondary/30 transition-colors">
+<div class="w-10 h-10 rounded-full bg-secondary/10 text-secondary flex items-center justify-center shrink-0 mt-1">
+<span class="material-symbols-outlined">description</span>
+</div>
+<div>
+<h4 class="font-label-sm text-label-sm font-bold text-on-surface mb-1">Context Matters</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Mention how the issue affects the community daily to help prioritize the response.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-nb-navy text-white">
+  <div class="max-w-7xl mx-auto px-8 py-8 flex flex-col md:flex-row justify-between items-center gap-4">
+    <div class="text-sm font-medium text-white/70 order-2 md:order-1">
+      © 2024 NeedBridge Civic Technology. Empowering Barangay Governance.
+    </div>
+    <nav class="flex flex-wrap justify-center gap-x-8 gap-y-2 order-1 md:order-2">
+      <a class="text-white/80 hover:text-white transition-colors text-sm font-medium" href="#">About Us</a>
+      <a class="text-white/80 hover:text-white transition-colors text-sm font-medium" href="#">Privacy Policy</a>
+      <a class="text-white/80 hover:text-white transition-colors text-sm font-medium" href="#">Terms of Service</a>
+      <a class="text-white/80 hover:text-white transition-colors text-sm font-medium" href="#">Contact Support</a>
+    </nav>
+  </div>
+</footer>
+
+
+</body></html>

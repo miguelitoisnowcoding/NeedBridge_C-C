@@ -1,0 +1,344 @@
+<!DOCTYPE html><html class="light" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>NeedBridge Coordinator Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-navy": "#1A3C5E",
+                        "maker-amber": "#F57C00",
+                        "status-red": "#C62828",
+                        "status-green": "#2E7D32",
+                        "bg-off-white": "#F5F6FA",
+                        "bg-light-gray": "#F0F2F5",
+                        
+                        "on-surface-variant": "#43474e",
+                        "surface-tint": "#416084",
+                        "on-primary": "#ffffff",
+                        "secondary": "#1b6d24",
+                        "primary-fixed": "#d1e4ff",
+                        "on-secondary-container": "#217128",
+                        "inverse-primary": "#a9c9f2",
+                        "tertiary-container": "#5f2c00",
+                        "on-primary-fixed-variant": "#28496b",
+                        "surface-container": "#edeef2",
+                        "background": "#f8f9fd",
+                        "surface": "#f8f9fd",
+                        "secondary-fixed": "#a3f69c",
+                        "secondary-container": "#a0f399",
+                        "on-surface": "#191c1f",
+                        "surface-variant": "#e1e2e6",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#88d982",
+                        "on-primary-fixed": "#001d36",
+                        "surface-container-low": "#f2f3f7",
+                        "tertiary": "#3e1b00",
+                        "primary-fixed-dim": "#a9c9f2",
+                        "surface-bright": "#f8f9fd",
+                        "inverse-surface": "#2e3134",
+                        "error-container": "#ffdad6",
+                        "on-primary-container": "#87a7ce",
+                        "surface-container-high": "#e7e8ec",
+                        "on-tertiary": "#ffffff",
+                        "primary-container": "#1a3c5e",
+                        "surface-container-lowest": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-container": "#fe820e",
+                        "tertiary-fixed": "#ffdcc6",
+                        "outline": "#73777f",
+                        "on-secondary-fixed": "#002204",
+                        "outline-variant": "#c3c6cf",
+                        "tertiary-fixed-dim": "#ffb786",
+                        "surface-dim": "#d9dade",
+                        "on-error": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#723600",
+                        "on-secondary-fixed-variant": "#005312",
+                        "on-background": "#191c1f",
+                        "primary": "#002645",
+                        "surface-container-highest": "#e1e2e6",
+                        "on-tertiary-fixed": "#311300",
+                        "inverse-on-surface": "#eff1f5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "stack-md": "1rem",
+                        "margin-desktop": "2rem",
+                        "stack-lg": "2rem",
+                        "gutter": "1.5rem",
+                        "container-max": "1280px",
+                        "stack-sm": "0.5rem",
+                        "margin-mobile": "1rem"
+                    },
+                    "fontFamily": {
+                        "page-title-mobile": ["Inter"],
+                        "card-header": ["Inter"],
+                        "label-sm": ["Inter"],
+                        "page-title": ["Inter"],
+                        "section-title": ["Inter"],
+                        "body-md": ["Inter"],
+                        "sans": ["Inter", "sans-serif"]
+                    },
+                    "fontSize": {
+                        "page-title-mobile": ["22px", { "lineHeight": "28px", "fontWeight": "700" }],
+                        "card-header": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+                        "label-sm": ["13px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "500" }],
+                        "page-title": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "section-title": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+                        "body-md": ["15px", { "lineHeight": "22px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-bg-off-white text-primary-navy h-screen flex flex-col font-sans text-body-md overflow-hidden">
+<!-- Global Header -->
+<header class="bg-primary-navy text-white sticky top-0 w-full z-50 shadow-md h-20 flex items-center">
+<div class="flex items-center gap-8 w-full max-w-container-max mx-auto"><!-- Logo -->
+<div class="text-2xl font-bold tracking-tight w-1/4">
+    NeedBridge
+</div>
+<!-- Desktop Nav - Combined Portal & Coordinator -->
+<nav class="hidden md:flex gap-8 items-center justify-center flex-1">
+    <a class="text-white/80 hover:text-white transition-colors font-medium" href="#">Home</a>
+    <a class="bg-maker-amber text-white px-5 py-2 rounded-lg font-semibold hover:opacity-90 transition-opacity" href="#">Submit Need</a>
+    <a class="text-white font-medium border-b-2 border-white pb-1 transition-opacity" href="#">Dashboard</a>
+    <a class="text-white/80 hover:text-white transition-colors font-medium" href="#">Reports</a>
+</nav>
+<!-- Right Side: User Profile & Logout -->
+<div class="flex items-center justify-end gap-4 w-1/4">
+    <div class="hidden sm:flex items-center gap-3">
+        <div class="text-right leading-tight">
+            <p class="text-sm font-bold text-white">Juan Dela Cruz</p>
+            <p class="text-xs text-white/70">Coordinator</p>
+        </div>
+        <div class="w-8 h-8 rounded-full overflow-hidden border border-white/30">
+            <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDpDnZN17xeI2-o2GNvAJ-cJwxCmAQ5ZU1-gNOlMxJTX0K40hJv_FIER34F8BJNzrgw9H5VzrBR0bqcpCWu50S21uM7UIcM2VZ7WNv1uQGYry7Kva-Hpm95dRBKoBtAsUdzu4c6aRDNXVHN9WBl-AxD0xxeTfBrPnJWtaH6p42fYcUgIrh2P6SyYGaxn8z3h4-OTpoXaKAwcrvaFsgJ5iqZhpgN0rpHrIc6IFtRz3wDduatChwBP2l5R65_KKd2tVPf7IYdIm80LfTF">
+        </div>
+    </div>
+    <button class="flex items-center gap-1 text-white/80 hover:text-white px-2 py-1.5 rounded-lg transition-colors text-sm font-bold">
+        <span class="material-symbols-outlined text-[18px]">logout</span>
+    </button>
+</div></div>
+</header>
+<div class="flex-1 flex overflow-hidden w-full">
+<!-- SideNavBar (from JSON logic) -->
+<aside class="hidden md:flex flex-col h-full w-64 bg-bg-light-gray border-r border-gray-200 py-stack-lg px-0 shrink-0">
+<div class="flex items-center gap-3 mb-8 px-6">
+<div class="w-10 h-10 rounded-full bg-primary-navy flex items-center justify-center text-white overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="A macro shot of an official, polished metallic government seal or badge featuring traditional heraldic elements and a subtle sunburst motif. The metal is slightly worn, indicating history, shot under clean studio lighting to emphasize the embossed details and professional authority." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAI1Y326MAIuiPC4Hgj24vOoHxlC2LxyBM3zD90KURZUwiUSLxmIyhjWeYi4IIj-V9JvPCUzYbrNTJsWhD8gJAnzaHY83oR1-cG6SCq90K2VrTuYViUVnA3KRFyacz90jAbqMdAPMZV6lg0A_HTCI1sKf2GIG6kR6XR8lj0zSAi0NqkUbY3ktQN2LX7b_FB9JrcVNSrZgjFKW-hobr2LXs7gJQvnwAPWJTzWfVHXjua0e2vBPX2dYIc-Y45T-BJiQl6Y3hNMYzWV8FM">
+</div>
+<div>
+<h2 class="text-sm font-bold text-primary-navy line-clamp-1">Barangay Coordinator</h2>
+<p class="text-xs text-primary-navy/70">District IV HQ</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1 px-3">
+<!-- Active State -->
+<a class="flex items-center gap-3 px-3 py-2.5 bg-primary-navy/5 text-primary-navy font-bold rounded-r-xl border-l-4 border-maker-amber transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">dashboard</span>
+<span class="text-sm">Overview</span>
+</a>
+<!-- Inactive States -->
+<a class="flex items-center gap-3 px-3 py-2.5 text-primary-navy/70 hover:bg-gray-200/50 transition-all rounded-r-xl border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined text-[20px]">map</span>
+<span class="text-sm">Incident Map</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-primary-navy/70 hover:bg-gray-200/50 transition-all rounded-r-xl border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined text-[20px]">psychology</span>
+<span class="text-sm">AI Insights</span>
+</a>
+<a class="flex items-center gap-3 px-3 py-2.5 text-primary-navy/70 hover:bg-gray-200/50 transition-all rounded-r-xl border-l-4 border-transparent" href="#">
+<span class="material-symbols-outlined text-[20px]">conveyor_belt</span>
+<span class="text-sm">Resource Allocation</span>
+</a>
+</nav>
+<div class="mt-auto flex flex-col gap-4 px-6 pb-4">
+<button class="w-full py-3 bg-maker-amber text-white rounded-xl text-sm font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity shadow-sm">
+<span class="material-symbols-outlined text-[20px]">add</span>
+                Generate Report
+            </button>
+<div class="flex flex-col gap-1 border-t border-gray-200 pt-4">
+<a class="flex items-center gap-3 py-2 text-primary-navy/70 hover:text-primary-navy transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+<span class="text-sm">Support</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-primary-navy/70 hover:text-primary-navy transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">archive</span>
+<span class="text-sm">Archive</span>
+</a>
+<a class="flex items-center gap-3 py-2 text-primary-navy/70 hover:text-primary-navy transition-all" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+<span class="text-sm">Settings</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col h-full overflow-hidden bg-bg-off-white">
+<!-- Scrollable Dashboard Content -->
+<div class="flex-1 overflow-y-auto p-margin-mobile md:p-8">
+<div class="max-w-container-max mx-auto flex flex-col gap-8">
+<!-- Dashboard Title Header (Moved into scrollable area) -->
+<div class="flex items-center justify-between w-full mb-2">
+<h1 class="text-section-title font-section-title text-primary-navy">Overview Dashboard</h1>
+</div>
+<!-- Stats Row -->
+<section class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<!-- Stat Card 1 -->
+<div class="bg-white rounded-xl p-6 flex flex-col gap-3 shadow-sm border-t-4 border-primary-navy">
+<div class="flex items-center gap-2 text-primary-navy/70">
+<span class="material-symbols-outlined text-[20px]">folder</span>
+<span class="text-sm font-bold uppercase tracking-wider">Total Reports</span>
+</div>
+<div class="text-[42px] font-bold text-primary-navy leading-none">124</div>
+</div>
+<!-- Stat Card 2 -->
+<div class="bg-white rounded-xl p-6 flex flex-col gap-3 shadow-sm border-t-4 border-status-red">
+<div class="flex items-center gap-2 text-status-red">
+<span class="material-symbols-outlined text-[20px]">warning</span>
+<span class="text-sm font-bold uppercase tracking-wider">High Severity</span>
+</div>
+<div class="text-[42px] font-bold text-primary-navy leading-none">18</div>
+</div>
+<!-- Stat Card 3 -->
+<div class="bg-white rounded-xl p-6 flex flex-col gap-3 shadow-sm border-t-4 border-maker-amber">
+<div class="flex items-center gap-2 text-maker-amber">
+<span class="material-symbols-outlined text-[20px]">schedule</span>
+<span class="text-sm font-bold uppercase tracking-wider">In Progress</span>
+</div>
+<div class="text-[42px] font-bold text-primary-navy leading-none">42</div>
+</div>
+<!-- Stat Card 4 -->
+<div class="bg-white rounded-xl p-6 flex flex-col gap-3 shadow-sm border-t-4 border-status-green">
+<div class="flex items-center gap-2 text-status-green">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+<span class="text-sm font-bold uppercase tracking-wider">Resolved</span>
+</div>
+<div class="text-[42px] font-bold text-primary-navy leading-none">64</div>
+</div>
+</section>
+<!-- Alert Banner -->
+<div class="bg-maker-amber rounded-xl p-4 flex items-center justify-between gap-4 shadow-sm text-white">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-white text-[24px]">warning</span>
+<p class="text-[15px] font-bold">
+                        Pattern detected: 3 similar drainage reports in Barangay San Isidro this week.
+                    </p>
+</div>
+<button class="shrink-0 text-sm font-bold text-white flex items-center gap-1 hover:bg-white/20 px-4 py-2 rounded-lg transition-colors border border-white/30">
+                    View <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</button>
+</div>
+<!-- Submissions Table Area -->
+<section class="flex flex-col gap-4">
+<h2 class="text-xl font-bold text-primary-navy">Recent Submissions</h2>
+<div class="bg-white rounded-xl overflow-hidden shadow-sm border border-gray-100">
+<!-- Table Header -->
+<div class="grid grid-cols-[80px_1fr_140px_120px_120px_120px] gap-4 p-4 bg-bg-light-gray border-b border-gray-200 text-xs font-bold text-primary-navy/70 uppercase tracking-wider hidden md:grid">
+<div class="text-center">Photo</div>
+<div class="">Description</div>
+<div class="">Type</div>
+<div class="">Severity</div>
+<div class="">Date</div>
+<div class="">Status</div>
+</div>
+<!-- Table Body -->
+<div class="flex flex-col">
+<!-- Row 1 -->
+<div class="grid grid-cols-1 md:grid-cols-[80px_1fr_140px_120px_120px_120px] gap-4 p-4 items-center border-b border-gray-100 last:border-b-0 hover:bg-blue-50 transition-colors cursor-pointer group bg-white">
+<div class="w-16 h-16 rounded-lg bg-gray-100 overflow-hidden shrink-0 hidden md:flex items-center justify-center border border-gray-200 mx-auto">
+<img class="w-full h-full object-cover" data-alt="A clear, realistic daytime photograph of a flooded residential street corner. A heavy metal drainage grate is completely obscured by collected murky water, plastic wrappers, and fallen leaves. The image is framed to emphasize the municipal hazard, shot with flat documentary lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJasv8yj88mW52_uqqWVl51WW4qwo5wmMOSrHobzj6pbTNQKF_HaNUXG8ytDORvNFpbcKy2YQp84CDcEHoTaVhoBAWpVeVTH7S3fHrymsXw-RlnK7fG3YwFYTLMNjbsDvvm_Csqpvz_60jhdY7RJVfEZeP41MEjs-eZPA9N4XN1UH-CzD6h2Inda1_pxqmHL6ZLZAaS5nnML424-rmkHL8OkGTSBRrpNycR6Keko-bCfn0A3T_aoAYGiamSg79fHy-1bN9t8BkiO6E">
+</div>
+<div class="flex flex-col gap-1 overflow-hidden">
+<span class="text-base font-medium text-primary-navy group-hover:text-blue-700 transition-colors truncate">Clogged drainage on Rizal St.</span>
+<span class="text-xs text-primary-navy/70 md:hidden">Oct 24, 2024</span>
+</div>
+<div>
+<span class="text-sm text-primary-navy/80 flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">water_drop</span> Water
+                                    </span>
+</div>
+<div>
+<span class="inline-flex px-3 py-1 bg-red-100 text-status-red text-[13px] font-bold uppercase tracking-widest rounded-full border border-red-200">High</span>
+</div>
+<div class="text-sm text-primary-navy/80 hidden md:block">Oct 24, 2024</div>
+<div>
+<span class="inline-flex px-3 py-1 bg-red-100 text-status-red text-sm font-bold rounded-full border border-red-200">Open</span>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="grid grid-cols-1 md:grid-cols-[80px_1fr_140px_120px_120px_120px] gap-4 p-4 items-center border-b border-gray-100 last:border-b-0 hover:bg-blue-50 transition-colors cursor-pointer group bg-gray-50/50">
+<div class="w-16 h-16 rounded-lg bg-gray-100 overflow-hidden shrink-0 hidden md:flex items-center justify-center border border-gray-200 mx-auto">
+<img class="w-full h-full object-cover" data-alt="A documentary-style photo of a damaged, leaning streetlight pole near a public plaza during late afternoon. The light casing at the top is shattered and hanging loose by wires. The background shows blurred greenery and pavement, highlighting the safety hazard clearly and objectively." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAw25gwlkxabjMUCQuzRbmEFpuXTbUDtcV5nuSd_U8j9sQwhO518RD4TG9MyyWq3I5OASXPC_zDuOgRsZeR55UTVcJ0T0P-by6vNi_eeXkr2D4GbSpqs0_GCqkk18SznVlfz61P--OlbBmb2J9sXooHafRNX-JVoreSg-b8NwAM3fBfgpyh7yNE9pWg4UmwqIerTFBggIqwHOPKI1erZAtbn1iPBnlB4IACedkbm2DcPyAuCmrMZMu7KWtKjbcyOGjjZBv9OrGkmdC0">
+</div>
+<div class="flex flex-col gap-1 overflow-hidden">
+<span class="text-base font-medium text-primary-navy group-hover:text-blue-700 transition-colors truncate">Broken streetlight near plaza</span>
+<span class="text-xs text-primary-navy/70 md:hidden">Oct 23, 2024</span>
+</div>
+<div>
+<span class="text-sm text-primary-navy/80 flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">bolt</span> Infrastructure
+                                    </span>
+</div>
+<div>
+<span class="inline-flex px-3 py-1 bg-amber-100 text-maker-amber text-[13px] font-bold uppercase tracking-widest rounded-full border border-amber-200">Medium</span>
+</div>
+<div class="text-sm text-primary-navy/80 hidden md:block">Oct 23, 2024</div>
+<div>
+<span class="inline-flex px-3 py-1 bg-amber-100 text-maker-amber text-sm font-bold rounded-full border border-amber-200">In Progress</span>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="grid grid-cols-1 md:grid-cols-[80px_1fr_140px_120px_120px_120px] gap-4 p-4 items-center border-b border-gray-100 last:border-b-0 hover:bg-blue-50 transition-colors cursor-pointer group bg-white">
+<div class="w-16 h-16 rounded-lg bg-gray-100 overflow-hidden shrink-0 hidden md:flex items-center justify-center border border-gray-200 mx-auto">
+<img class="w-full h-full object-cover" data-alt="A close-up, highly detailed photograph of a large, jagged pothole in the middle of a paved asphalt road. Loose gravel and broken asphalt pieces are scattered around the edge. Taken in bright, stark daylight to emphasize the depth and texture of the road damage, suitable for a civic report." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAtPiJ3vtUoJITH1vCmgrk8QQsb6uL5JXC1O5diD2JWysLZMqzbaSNvST8Rmy7kn_9mkh4sJbPs1iaO4aWLdMw7LpK2S4ANoJKGJI-VkBj29_wsGBJ8k2PeO68SeNnc5-PxVNue8g_UTPu_SSe_OjWe-lDntxKkiBhctw90DK0C3ZEKWK-G_TY6hOw8meO6SyWJ12iHn-DbZFKqQ_LdBT0BRcGo62x3mZ4L8k3Nk3c3XpDi43YmyrziThmVbCGzKcoCtmCp_eEvyrb5">
+</div>
+<div class="flex flex-col gap-1 overflow-hidden">
+<span class="text-base font-medium text-primary-navy group-hover:text-blue-700 transition-colors truncate">Deep pothole on Mabini Ave</span>
+<span class="text-xs text-primary-navy/70 md:hidden">Oct 22, 2024</span>
+</div>
+<div>
+<span class="text-sm text-primary-navy/80 flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">add_road</span> Infrastructure
+                                    </span>
+</div>
+<div>
+<span class="inline-flex px-3 py-1 bg-red-100 text-status-red text-[13px] font-bold uppercase tracking-widest rounded-full border border-red-200">High</span>
+</div>
+<div class="text-sm text-primary-navy/80 hidden md:block">Oct 22, 2024</div>
+<div>
+<span class="inline-flex px-3 py-1 bg-green-100 text-status-green text-sm font-bold rounded-full border border-green-200">Resolved</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</div>
+</main>
+</div>
+<!-- Footer -->
+<footer class="bg-primary-navy shrink-0"><div class="w-full py-6 px-6 max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-4"><div class="text-sm text-white/60">© 2024 NeedBridge Civic Technology. Empowering Barangay Governance.</div><nav class="flex flex-wrap justify-center gap-6"><a class="text-white/80 hover:text-white transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-white rounded" href="#">About Us</a><a class="text-white/80 hover:text-white transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-white rounded" href="#">Privacy Policy</a><a class="text-white/80 hover:text-white transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-white rounded" href="#">Terms of Service</a><a class="text-white/80 hover:text-white transition-colors text-sm focus:outline-none focus:ring-2 focus:ring-white rounded" href="#">Contact Support</a></nav></div></footer>
+
+
+
+
+</body></html>
