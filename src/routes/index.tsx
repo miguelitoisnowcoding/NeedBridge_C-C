@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,33 +23,33 @@ const SCREENS = [
   { id: 3, label: "Coordinator Dashboard", path: "/screens/3.html" },
 ];
 
+const TARGET_TO_ID: Record<string, number> = {
+  home: 1,
+  submit: 6,
+  processing: 7,
+  loading: 4,
+  reports: 2,
+  ai: 5,
+  dashboard: 3,
+};
+
 function Index() {
   const [active, setActive] = useState(SCREENS[0]);
+
+  useEffect(() => {
+    function onMsg(e: MessageEvent) {
+      const data = e.data as { type?: string; target?: string } | undefined;
+      if (!data || data.type !== "nb-nav" || !data.target) return;
+      const id = TARGET_TO_ID[data.target];
+      const next = SCREENS.find((s) => s.id === id);
+      if (next) setActive(next);
+    }
+    window.addEventListener("message", onMsg);
+    return () => window.removeEventListener("message", onMsg);
+  }, []);
+
   return (
-    <div className="flex h-screen flex-col bg-slate-100">
-      <header className="flex items-center gap-4 border-b border-slate-200 bg-white px-6 py-3 shadow-sm">
-        <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#1a3c5e] text-white font-bold">
-            N
-          </div>
-          <span className="font-bold text-[#1a3c5e]">NeedBridge</span>
-        </div>
-        <nav className="flex flex-wrap gap-1 ml-4">
-          {SCREENS.map((s) => (
-            <button
-              key={s.id}
-              onClick={() => setActive(s)}
-              className={`rounded-md px-3 py-1.5 text-sm font-medium transition ${
-                active.id === s.id
-                  ? "bg-[#1a3c5e] text-white"
-                  : "text-slate-600 hover:bg-slate-100"
-              }`}
-            >
-              {s.label}
-            </button>
-          ))}
-        </nav>
-      </header>
+    <div className="flex h-screen flex-col bg-white">
       <iframe
         key={active.id}
         src={active.path}

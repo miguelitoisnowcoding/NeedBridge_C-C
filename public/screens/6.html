@@ -107,32 +107,7 @@
 </head>
 <body class="font-body-md text-on-surface antialiased flex flex-col min-h-screen">
 <!-- TopNavBar -->
-<header class="bg-primary dark:bg-primary-container text-on-primary dark:text-on-primary-container font-body-md text-body-md docked full-width top-0 bg-primary dark:bg-primary-container flat no shadows hover:bg-primary-container/50 transition-colors Active: scale-95 duration-150 flex justify-between items-center px-margin-desktop w-full h-16 max-w-container-max mx-auto z-50 sticky top-0 shadow-sm border-b border-nb-navy/10">
-<div class="flex items-center gap-8">
-<a class="text-page-title font-page-title text-on-primary dark:text-on-primary-container font-extrabold tracking-tight" href="#">NeedBridge</a>
-<nav class="hidden md:flex gap-6 items-center pt-1">
-<a class="text-on-primary-fixed-variant opacity-90 hover:opacity-100 transition-opacity pb-4" href="#">Home</a>
-<a class="text-on-primary-fixed-variant opacity-90 hover:opacity-100 transition-opacity pb-4" href="#">Reports</a>
-<a class="text-on-primary font-bold border-b-2 border-secondary-fixed pb-4" href="#">Submissions</a>
-</nav>
-</div>
-<div class="flex items-center gap-4">
-<div class="hidden sm:flex bg-on-primary/10 rounded-full p-1 cursor-pointer hover:bg-on-primary/20 transition-colors">
-<span class="px-3 py-1 bg-white text-nb-navy rounded-full font-label-sm text-label-sm font-bold shadow-sm">EN</span>
-<span class="px-3 py-1 text-white/80 rounded-full font-label-sm text-label-sm">FIL</span>
-</div>
-<button class="hidden md:block border border-on-primary text-on-primary px-4 py-2 rounded-lg font-label-sm text-label-sm font-bold hover:bg-on-primary/10 transition-colors">
-                Sign In
-            </button>
-<button class="bg-nb-amber text-white px-5 py-2 rounded-lg font-label-sm text-label-sm font-bold shadow-md hover:bg-nb-amber/90 transition-colors flex items-center gap-2">
-<span class="material-symbols-outlined text-[18px]">add</span>
-                Submit Need
-            </button>
-<button class="md:hidden text-on-primary">
-<span class="material-symbols-outlined">menu</span>
-</button>
-</div>
-</header>
+<!-- nav-mount -->
 <!-- Main Canvas -->
 <main class="flex-grow w-full max-w-container-max mx-auto px-margin-desktop py-stack-lg flex flex-col gap-8">
 <!-- Progress Indicator -->
@@ -300,4 +275,6 @@
 </footer>
 
 
+<script>window.__NB_PAGE="submit";</script>
+<script src="/screens/_nav.js"></script>
 </body></html>
