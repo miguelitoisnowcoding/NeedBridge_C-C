@@ -380,7 +380,7 @@ Respond with this exact JSON structure:
         "X-Title": "NeedBridge"
       },
       body: JSON.stringify({
-        model: "google/gemini-2.0-flash-001",
+        model: "google/gemini-2.5-flash-lite",
         messages: [
           { role: "system", content: systemPrompt },
           ...messages
