@@ -170,57 +170,75 @@ export function AIScreen() {
             </div>
 
             {/* BuildIt Card */}
-                    <div className="flex items-center gap-3 rounded-t-xl p-5 text-white" style={{ background: "#E24B4A" }}>
-                      <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z" />
-                      </svg>
-                      <h3 className="text-xl font-semibold">BuildIt</h3>
+            <div className="flex flex-col rounded-xl border border-gray-200 bg-white shadow-sm">
+              <div className="flex items-center gap-3 rounded-t-xl p-5 text-white" style={{ background: "#E24B4A" }}>
+                <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z" />
+                </svg>
+                <h3 className="text-xl font-semibold">BuildIt</h3>
+              </div>
+              <div className="flex flex-grow flex-col gap-6 p-6">
+               {result.buildit && (
+                <div className="bg-white rounded-xl shadow-md overflow-hidden">
+                  {/* Amber header */}
+                  <div className="bg-[#E24B4A] px-6 py-4">
+                    <h2 className="text-white font-bold text-lg">
+                      🔧 BuildIt
+                    </h2>
+                  </div>
+                  <div className="p-6 space-y-4">
+              
+                    <h3 className="font-bold text-[#0F1E33] text-lg">
+                      {result.buildit.solution_name}
+                    </h3>
+              
+                    <div className="flex gap-2">
+                      <span className="bg-gray-100 text-gray-700 px-3 py-1 
+                                       rounded-full text-sm font-medium">
+                        {result.buildit.difficulty_level}
+                      </span>
+                      <span className="bg-gray-100 text-gray-700 px-3 py-1 
+                                       rounded-full text-sm font-medium">
+                        ⏱ {result.buildit.estimated_time}
+                      </span>
                     </div>
-                    
-                    <div className="flex flex-grow flex-col gap-6 p-6">
-                      {result.buildit && (
-                        <div className="space-y-4">
-                          <h3 className="font-bold text-[#0F1E33] text-lg">
-                            {result.buildit.solution_name}
-                          </h3>
-                    
-                          <div className="flex gap-2">
-                            <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">
-                              {result.buildit.difficulty_level}
-                            </span>
-                            <span className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm font-medium">
-                              ⏱ {result.buildit.estimated_time}
-                            </span>
-                          </div>
-                    
-                          {/* Parts list */}
+              
+                    {/* Parts list */}
+                    <div>
+                      <h4 className="font-semibold text-gray-700 mb-2">
+                        Parts Checklist
+                      </h4>
+                      {result.buildit.parts_list.map((part, i) => (
+                        <div key={i} 
+                             className="flex justify-between py-2 border-b border-gray-100">
                           <div>
-                            <h4 className="font-semibold text-gray-700 mb-2">Parts Checklist</h4>
-                            {result.buildit.parts_list.map((part, i) => (
-                              <div key={i} className="flex justify-between py-2 border-b border-gray-100">
-                                <div>
-                                  <span className="text-sm font-medium">{part.item}</span>
-                                  <span className="text-xs text-gray-400 ml-2">x{part.quantity}</span>
-                                </div>
-                                <span className="text-sm font-bold text-[#0F1E33]">{part.est_price}</span>
-                              </div>
-                            ))}
+                            <span className="text-sm font-medium">{part.item}</span>
+                            <span className="text-xs text-gray-400 ml-2">
+                              x{part.quantity}
+                            </span>
                           </div>
-                    
-                          {/* Build steps */}
-                          <div>
-                            <h4 className="font-semibold text-gray-700 mb-3">Build Steps</h4>
-                            {result.buildit.build_steps.map((step, i) => (
-                              <div key={i} className="flex gap-3 mb-3">
-                                <div className="w-7 h-7 rounded-full bg-[#E24B4A] text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
-                                  {i + 1}
-                                </div>
-                                <p className="text-sm text-gray-700">{step}</p>
-                              </div>
-                            ))}
-                          </div>
+                          <span className="text-sm font-bold text-[#0F1E33]">
+                            {part.est_price}
+                          </span>
                         </div>
-                      )}
+                      ))}
+                    </div>
+              
+                    {/* Build steps */}
+                    <div>
+                      <h4 className="font-semibold text-gray-700 mb-3">
+                        Build Steps
+                      </h4>
+                      {result.buildit.build_steps.map((step, i) => (
+                        <div key={i} className="flex gap-3 mb-3">
+                          <div className="w-7 h-7 rounded-full bg-[#E24B4A] text-white 
+                                          flex items-center justify-center font-bold 
+                                          text-sm flex-shrink-0">
+                            {i + 1}
+                          </div>
+                          <p className="text-sm text-gray-700">{step}</p>
+                        </div>
+                      ))}
                     </div>
               
                     {/* Shopee button */}
