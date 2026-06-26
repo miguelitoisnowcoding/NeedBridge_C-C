@@ -21,7 +21,8 @@ export function SubmitScreen() {
     }
   };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
     // Validate input
     if (!uploadedFile && !description) {
       setError("Please upload a photo or describe the issue.");
@@ -234,12 +235,12 @@ export function SubmitScreen() {
             {/* Action */}
             <div className="mt-2 border-t border-gray-100/30 pt-4">
               <button
-                className="flex w-full items-center justify-center gap-2 rounded-xl py-4 text-lg font-bold text-white shadow-md transition-all hover:shadow-lg active:scale-[0.99]"
+                type="submit"
+                className="flex w-full items-center justify-center gap-2 rounded-xl py-4 text-lg font-bold text-white shadow-md transition-all hover:shadow-lg active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{ background: "#E24B4A" }}
-                onClick={handleSubmit}
                 disabled={isAnalyzing}
               >
-                Continue to AI Plan
+                {isAnalyzing ? "Analyzing..." : "Continue to AI Plan"}
                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" />
                 </svg>
