@@ -57,8 +57,7 @@ export function SubmitScreen() {
 
         // Save result to localStorage and navigate to result screen
     localStorage.setItem("needbridgeResult", JSON.stringify(result));
-    window.location.href = "/result";
-    
+    await navigate({ to: "/ai" });
       } catch (err: any) {
         setError("Something went wrong. Please try again.");
         console.error("Submit error:", err);
