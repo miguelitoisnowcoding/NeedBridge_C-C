@@ -54,6 +54,18 @@ Generates a DIY technical solution with a component list, estimated cost in Phil
 
 ---
 
+## 🗺️ User Flow Diagram
+![User Flow](docs/userflow-diagram.png)
+
+## 🤖 AI Model Diagram
+![AI Model](docs/aimodel-diagram.png)
+
+## 📸 Screenshots
+![Homepage](docs/mockup-homepage.png)
+![Result Screen](docs/mockup-response.png)
+
+--
+
 ## ✨ Key Features
 
 - **Photo-to-Analysis Pipeline** — Upload a photo of any infrastructure issue; AI identifies the type, cause, and severity automatically
