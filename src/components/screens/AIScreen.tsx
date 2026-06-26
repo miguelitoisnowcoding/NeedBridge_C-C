@@ -123,7 +123,7 @@ export function AIScreen() {
               <div className="flex flex-grow flex-col gap-6 p-6">
                 <div>
                   {/* Immediate Actions */}
-                  {result.actnow.immediate_actions.map((action, i) => (
+                  {result.actnow?.immediate_actions.map((action, i) => (
                     <div key={i} className="flex gap-3 py-2 border-b border-gray-100">
                     <div className="w-6 h-6 rounded-full bg-[#185FA5] text-white flex items-center justify-center text-xs font-bold flex-shrink-0">
                     {i + 1}
@@ -133,34 +133,34 @@ export function AIScreen() {
                   ))}
 
                   {/* Short Term Steps */}
-                  {result.actnow.short_term_steps.map((step, i) => (
+                  {result.actnow?.short_term_steps.map((step, i) => (
                     <p key={i} className="text-sm text-gray-700">• {step}</p>
                   ))}
 
                   {/* Resources */}
-                  {result.actnow.resources_needed.map((resource, i) => (
+                  {result.actnow?.resources_needed.map((resource, i) => (
                     <p key={i} className="text-sm text-gray-600">• {resource}</p>
                   ))}
 
                   {/* Escalation button */}
                   <button
-                  onClick={() => {
-                    const agency = result.gov_escalation?.agency_name || "DPWH";
-                    const issueType = result.issue_type || "Community Issue";
-                    const severity = result.severity || "Medium";
-                    const location = result.barangay_context || "our barangay";
-                    const emailBody = result.gov_escalation?.email_template_draft ||
-                      `Dear ${agency},\n\nWe wish to formally report the following community infrastructure issue requiring your immediate attention:\n\nIssue Type: ${issueType}\nSeverity: ${severity}\nLocation: ${location}\n\nWe request your office to assess and address this matter at the earliest possible time.\n\nThank you.\n\n— Sent via NeedBridge Civic Technology`;
-                
-                    const subject = encodeURIComponent(
-                      `[NeedBridge] ${severity} Priority Report — ${issueType} in ${location}`
-                    );
-                    const body = encodeURIComponent(emailBody);
-                
-                    window.location.href = `mailto:?subject=${subject}&body=${body}`;
-                  }}
-                  className="w-full border-2 border-[#185FA5] text-[#185FA5] py-3 rounded-lg font-bold hover:bg-blue-50 transition-colors">
-                  🚩 Flag for Escalation — {result.gov_escalation?.agency_name || "Gov Agency"}
+                    onClick={() => {
+                      const agency = result.gov_escalation?.agency_name || "DPWH";
+                      const issueType = result.issue_type || "Community Issue";
+                      const severity = result.severity || "Medium";
+                      const location = result.barangay_context || "our barangay";
+                      const emailBody = result.gov_escalation?.email_template_draft ||
+                        `Dear ${agency},\n\nWe wish to formally report the following community infrastructure issue requiring your immediate attention:\n\nIssue Type: ${issueType}\nSeverity: ${severity}\nLocation: ${location}\n\nWe request your office to assess and address this matter at the earliest possible time.\n\nThank you.\n\n— Sent via NeedBridge Civic Technology`;
+                  
+                      const subject = encodeURIComponent(
+                        `[NeedBridge] ${severity} Priority Report — ${issueType} in ${location}`
+                      );
+                      const body = encodeURIComponent(emailBody);
+                  
+                      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+                    }}
+                    className="w-full border-2 border-[#185FA5] text-[#185FA5] py-3 rounded-lg font-bold hover:bg-blue-50 transition-colors">
+                    🚩 Flag for Escalation — {result.gov_escalation?.agency_name || "Gov Agency"}
                 </button>
                 </div>
                 <div className="mt-auto flex flex-col gap-3 border-t border-gray-200 pt-6">
