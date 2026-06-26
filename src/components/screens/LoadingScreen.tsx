@@ -11,27 +11,40 @@ export function LoadingScreen() {
     return () => clearTimeout(timer);
   }, [navigate]);
 
+  if (isAnalyzing) {
   return (
-    <div className="flex h-screen w-full items-center justify-center" style={{ background: "#0C447C" }}>
-      <div className="flex flex-col items-center gap-6">
-        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="60" cy="60" r="50" stroke="rgba(255,255,255,0.2)" strokeWidth="8" />
-          <path d="M60 10C32.3858 10 10 32.3858 10 60" stroke="#E24B4A" strokeLinecap="round" strokeWidth="8">
-            <animateTransform
-              attributeName="transform"
-              dur="1.5s"
-              from="0 60 60"
-              repeatCount="indefinite"
-              to="360 60 60"
-              type="rotate"
-            />
-          </path>
-          <circle cx="60" cy="60" r="15" fill="#E24B4A">
-            <animate attributeName="opacity" dur="2s" repeatCount="indefinite" values="1;0.4;1" />
-          </circle>
-        </svg>
-        <p className="text-lg font-medium text-white/80">Analyzing your report...</p>
+    <div className="min-h-screen bg-[#F5F6FA] flex items-center justify-center">
+      <div className="bg-white rounded-2xl shadow-lg p-12 max-w-md w-full text-center">
+        <div className="text-5xl mb-6">🔍</div>
+        <h2 className="text-xl font-bold text-[#1A3C5E] mb-8">
+          Analyzing your report...
+        </h2>
+        <div className="space-y-4 text-left">
+          {[
+            { label: "Identifying issue type", sub: "WatsonX Classifier" },
+            { label: "Determining severity", sub: "" },
+            { label: "Generating response plan", sub: "OpenRouter — Gemini 2.0 Flash" }
+          ].map((step, i) => (
+            <div key={i} className="flex items-center gap-3">
+              <div className="w-6 h-6 rounded-full bg-green-500 
+                              flex items-center justify-center text-white text-xs">
+                ✓
+              </div>
+              <div>
+                <span className="text-sm font-medium text-gray-800">
+                  {step.label}
+                </span>
+                {step.sub && (
+                  <span className="text-xs text-gray-400 ml-2">
+                    {step.sub}
+                  </span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
+}
 }
