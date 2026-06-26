@@ -13,10 +13,10 @@ export function LoadingScreen() {
 
   if (isAnalyzing) {
   return (
-    <div className="min-h-screen bg-[#F5F6FA] flex items-center justify-center">
+    <div className="min-h-screen bg-[#F5F7FA] flex items-center justify-center">
       <div className="bg-white rounded-2xl shadow-lg p-12 max-w-md w-full text-center">
         <div className="text-5xl mb-6">🔍</div>
-        <h2 className="text-xl font-bold text-[#1A3C5E] mb-8">
+        <h2 className="text-xl font-bold text-[#0F1E33] mb-8">
           Analyzing your report...
         </h2>
         <div className="space-y-4 text-left">

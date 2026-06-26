@@ -35,7 +35,7 @@ const TABLE_ROWS = [
     severityBg: "bg-red-100",
     date: "Oct 22, 2024",
     status: "Resolved",
-    statusColor: "#2E7D32",
+    statusColor: "#185FA5",
     statusBg: "bg-green-100",
   },
 ];
@@ -230,8 +230,8 @@ export function DashboardScreen() {
                       42
                     </div>
                   </div>
-                  <div className="flex flex-col gap-3 rounded-xl bg-white p-6 shadow-sm" style={{ borderTop: "4px solid #2E7D32" }}>
-                    <div className="flex items-center gap-2" style={{ color: "#2E7D32" }}>
+                  <div className="flex flex-col gap-3 rounded-xl bg-white p-6 shadow-sm" style={{ borderTop: "4px solid #185FA5" }}>
+                    <div className="flex items-center gap-2" style={{ color: "#185FA5" }}>
                       <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
                       </svg>
