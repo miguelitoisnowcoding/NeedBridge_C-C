@@ -5,7 +5,7 @@
 // Stage 2: OpenRouter Generation Engine (response generation)
 // ============================================================
 
-const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY;
+const OPENROUTER_API_KEY = "sk-or-v1-c4cd981f1c77f15cd44c9c79c22a95bb5685cf7225e94d9bacdd0d23b508024";
 
 // ============================================================
 // SECTION 1 — TYPES AND INTERFACES
