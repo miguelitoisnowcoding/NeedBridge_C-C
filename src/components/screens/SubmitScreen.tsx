@@ -234,7 +234,6 @@ export function SubmitScreen() {
             {/* Action */}
             <div className="mt-2 border-t border-gray-100/30 pt-4">
               <button
-                type="submit"
                 className="flex w-full items-center justify-center gap-2 rounded-xl py-4 text-lg font-bold text-white shadow-md transition-all hover:shadow-lg active:scale-[0.99]"
                 style={{ background: "#E24B4A" }}
                 onClick={handleSubmit}
