@@ -119,7 +119,6 @@ export function SubmitScreen() {
           <form onSubmit={handleSubmit} className="lg:col-span-7 flex flex-col gap-8 rounded-xl border border-gray-200/50 bg-white p-6 shadow-[0px_4px_12px_rgba(0,0,0,0.02)] sm:p-8">
             {/* Photo Upload */}
             <div className="flex flex-col gap-2">
-              <input type="file">
               <label className="text-xs font-bold text-gray-900">Evidence (Required)</label>
               <div className="flex h-[180px] w-full cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 transition-colors hover:bg-gray-100 group">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full transition-transform group-hover:scale-110" style={{ background: "rgba(24,95,165,0.1)", color: "#185FA5" }}>
