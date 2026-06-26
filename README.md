@@ -55,10 +55,10 @@ Generates a DIY technical solution with a component list, estimated cost in Phil
 ---
 
 ## 🗺️ User Flow Diagram
-![User Flow](docs/userflow-diagram.png)
+![User Flow](userflow_diagram.png)
 
 ## 🤖 AI Model Diagram
-![AI Model](docs/aimodel-diagram.png)
+![AI Model](docs/aimodel_diagram.png)
 
 ## 📸 Screenshots
 ![Homepage](docs/mockup-homepage.png)
