@@ -1,9 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { NeedBridgeOutput } from "@/lib/openrouter";
 import { Link } from "@tanstack/react-router";
 import { PageLayout } from "../layout/PageLayout";
 
 export function AIScreen() {
   const [showGuide, setShowGuide] = useState(false);
+  const [result, setResult] = useState<NeedBridgeOutput | null>(null);
+  useEffect(() => {
+    const stored = localStorage.getItem("needbridgeResult");
+    if (stored) {
+      try {
+        setResult(JSON.parse(stored));
+      } catch {
+        console.error("Failed to parse stored result");
+      }
+    }
+  }, []);
+  
+  if (!result) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-500">Loading result...</p>
+      </div>
+    );
+  }
 
   const handleFlag = () => {
     const subject = encodeURIComponent("NeedBridge Escalation: Clogged Drainage - Barangay 123");
@@ -34,10 +54,15 @@ export function AIScreen() {
             <div className="flex flex-col gap-2">
               <div className="flex flex-wrap items-center gap-3">
                 <h1 className="m-0 text-[20px] font-bold leading-tight text-gray-900">Clogged Drainage</h1>
-                <span className="rounded border border-gray-200 bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-500">Infrastructure</span>
+                <span className="rounded border border-gray-200 bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-500">{result.issue_type}</span>
               </div>
               <div className="flex flex-wrap items-center gap-4">
-                <span className="rounded bg-[#C62828] px-3 py-1 text-sm font-bold uppercase tracking-wider text-white">High Severity</span>
+                <span className={`px-3 py-1 rounded-full text-sm font-bold text-white ${result.severity === "High" ? "bg-[#C62828]" :
+                  result.severity === "Medium" ? "bg-[#F9A825]" :
+                  "bg-[#388E3C]"
+                }`}>
+                  {result.severity} Priority
+                </span>
                 <span className="flex items-center gap-1.5 text-sm text-gray-500">
                   <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
@@ -97,43 +122,41 @@ export function AIScreen() {
               </div>
               <div className="flex flex-grow flex-col gap-6 p-6">
                 <div>
-                  <h4 className="mb-3 border-b border-gray-200 pb-2 text-sm font-bold uppercase tracking-wider text-gray-900">Immediate Actions</h4>
-                  <ul className="mt-4 space-y-3">
-                    <li className="flex items-start gap-3 text-[14px] text-gray-500">
-                      <svg className="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" style={{ color: "#185FA5" }}>
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                      </svg>
-                      <span className="pt-0.5">Clear surface debris (leaves, plastic) blocking the primary grate.</span>
-                    </li>
-                    <li className="flex items-start gap-3 text-[14px] text-gray-500">
-                      <svg className="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" style={{ color: "#185FA5" }}>
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                      </svg>
-                      <span className="pt-0.5">Place temporary warning signs or cones around the flooded zone.</span>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="mb-3 border-b border-gray-200 pb-2 text-sm font-bold uppercase tracking-wider text-gray-900">Short-Term Coordination</h4>
-                  <ul className="mt-4 space-y-3">
-                    <li className="flex items-start gap-3 text-[14px] text-gray-500">
-                      <svg className="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" style={{ color: "#185FA5" }}>
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                      </svg>
-                      <span className="pt-0.5">Organize 5-person volunteer cleanup detail for safe perimeter clearing.</span>
-                    </li>
-                  </ul>
-                </div>
-                <div>
-                  <h4 className="mb-3 border-b border-gray-200 pb-2 text-sm font-bold uppercase tracking-wider text-gray-900">Resources Needed</h4>
-                  <ul className="mt-4 space-y-3">
-                    <li className="flex items-start gap-3 text-[14px] text-gray-500">
-                      <svg className="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="currentColor" style={{ color: "#185FA5" }}>
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                      </svg>
-                      <span className="pt-0.5">Trash bags, work gloves, safety vests, traffic cones.</span>
-                    </li>
-                  </ul>
+                  {/* Immediate Actions */}
+                  {result.actnow.immediate_actions.map((action, i) => (
+                    <div key={i} className="flex gap-3 py-2 border-b border-gray-100">
+                    <div className="w-6 h-6 rounded-full bg-[#2E7D32] text-white flex items-center justify-center text-xs font-bold flex-shrink-0">
+                    {i + 1}
+                    </div>
+                    <p className="text-sm text-gray-700">{action}</p>
+                    </div>
+                  ))}
+
+                  {/* Short Term Steps */}
+                  {result.actnow.short_term_steps.map((step, i) => (
+                    <p key={i} className="text-sm text-gray-700">• {step}</p>
+                  ))}
+
+                  {/* Resources */}
+                  {result.actnow.resources_needed.map((resource, i) => (
+                    <p key={i} className="text-sm text-gray-600">• {resource}</p>
+                  ))}
+
+                  {/* Escalation button */}
+                  <button
+                    onClick={() => {
+                      const agency = result.actnow.escalation_agency || 
+                                     result.gov_escalation?.agency_name || "DPWH";
+                      const subject = `Community Issue Report — ${result.issue_type}`;
+                      const body = result.gov_escalation?.email_template_draft || 
+                                   `We wish to report a ${result.issue_type} issue in our barangay requiring your immediate attention.`;
+                      window.open(
+                        `mailto:${agency.toLowerCase()}@gov.ph?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+                      );
+                    }}
+                    className="w-full border-2 border-[#2E7D32] text-[#2E7D32] py-3 rounded-lg font-bold hover:bg-green-50 transition-colors">
+                    🚩 Flag for Escalation — {result.gov_escalation?.agency_name || "Gov Agency"}
+                    </button>
                 </div>
                 <div className="mt-auto flex flex-col gap-3 border-t border-gray-200 pt-6">
                   <button onClick={handleFlag} className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-[#185FA5] bg-white py-3 font-bold text-[#185FA5] transition-colors hover:bg-blue-50">
@@ -155,92 +178,90 @@ export function AIScreen() {
                 <h3 className="text-xl font-semibold">BuildIt</h3>
               </div>
               <div className="flex flex-grow flex-col gap-6 p-6">
-                <div>
-                  <h4 className="mb-3 text-base font-bold text-gray-900">Perimeter Seal & Debris Snake</h4>
-                  <div className="mb-2 flex flex-wrap gap-3">
-                    <span className="flex items-center gap-1.5 rounded-md border border-gray-200 bg-gray-50 px-2.5 py-1.5 text-xs font-semibold text-gray-500">
-                      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                      </svg>
-                      Medium Difficulty
-                    </span>
-                    <span className="flex items-center gap-1.5 rounded-md border border-gray-200 bg-gray-50 px-2.5 py-1.5 text-xs font-semibold text-gray-500">
-                      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" />
-                      </svg>
-                      4 Hours
-                    </span>
+               {result.buildit && (
+                <div className="bg-white rounded-xl shadow-md overflow-hidden">
+                  {/* Amber header */}
+                  <div className="bg-[#F57C00] px-6 py-4">
+                    <h2 className="text-white font-bold text-lg">
+                      🔧 BuildIt
+                    </h2>
+                  </div>
+                  <div className="p-6 space-y-4">
+              
+                    <h3 className="font-bold text-[#1A3C5E] text-lg">
+                      {result.buildit.solution_name}
+                    </h3>
+              
+                    <div className="flex gap-2">
+                      <span className="bg-gray-100 text-gray-700 px-3 py-1 
+                                       rounded-full text-sm font-medium">
+                        {result.buildit.difficulty_level}
+                      </span>
+                      <span className="bg-gray-100 text-gray-700 px-3 py-1 
+                                       rounded-full text-sm font-medium">
+                        ⏱ {result.buildit.estimated_time}
+                      </span>
+                    </div>
+              
+                    {/* Parts list */}
+                    <div>
+                      <h4 className="font-semibold text-gray-700 mb-2">
+                        Parts Checklist
+                      </h4>
+                      {result.buildit.parts_list.map((part, i) => (
+                        <div key={i} 
+                             className="flex justify-between py-2 border-b border-gray-100">
+                          <div>
+                            <span className="text-sm font-medium">{part.item}</span>
+                            <span className="text-xs text-gray-400 ml-2">
+                              x{part.quantity}
+                            </span>
+                          </div>
+                          <span className="text-sm font-bold text-[#1A3C5E]">
+                            {part.est_price}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+              
+                    {/* Build steps */}
+                    <div>
+                      <h4 className="font-semibold text-gray-700 mb-3">
+                        Build Steps
+                      </h4>
+                      {result.buildit.build_steps.map((step, i) => (
+                        <div key={i} className="flex gap-3 mb-3">
+                          <div className="w-7 h-7 rounded-full bg-[#F57C00] text-white 
+                                          flex items-center justify-center font-bold 
+                                          text-sm flex-shrink-0">
+                            {i + 1}
+                          </div>
+                          <p className="text-sm text-gray-700">{step}</p>
+                        </div>
+                      ))}
+                    </div>
+              
+                    {/* Shopee button */}
+                    <button
+                      onClick={() => {
+                        const query = result.buildit!.parts_list[0]?.item || 
+                                      result.buildit!.solution_name;
+                        window.open(
+                          `https://shopee.ph/search?keyword=${encodeURIComponent(query)}`,
+                          "_blank"
+                        );
+                      }}
+                      className="w-full bg-[#EE4D2D] text-white py-3 rounded-lg 
+                                 font-bold hover:bg-[#D94226] transition-colors"
+                    >
+                      🛍️ Search Parts on Shopee
+                    </button>
+              
                   </div>
                 </div>
-                <div className="flex-grow">
-                  <h4 className="mb-3 border-b border-gray-200 pb-2 text-sm font-bold uppercase tracking-wider text-gray-900">Parts Checklist</h4>
-                  <ul className="mt-4 overflow-hidden rounded-lg border border-gray-200">
-                    <li className="flex items-center justify-between border-b border-gray-200 bg-white p-3 text-[14px] text-gray-900">
-                      <span className="flex items-center gap-3">
-                        <svg className="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" />
-                        </svg>
-                        Heavy-duty drain snake (10m)
-                      </span>
-                      <span className="font-mono text-sm font-semibold text-gray-500">₱850.00</span>
-                    </li>
-                    <li className="flex items-center justify-between border-b border-gray-200 bg-white p-3 text-[14px] text-gray-900">
-                      <span className="flex items-center gap-3">
-                        <svg className="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" />
-                        </svg>
-                        Fast-setting hydraulic cement (5kg)
-                      </span>
-                      <span className="font-mono text-sm font-semibold text-gray-500">₱320.00</span>
-                    </li>
-                    <li className="flex items-center justify-between bg-white p-3 text-[14px] text-gray-900">
-                      <span className="flex items-center gap-3">
-                        <svg className="h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="currentColor">
-                          <path d="M19 5v14H5V5h14m0-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2z" />
-                        </svg>
-                        Joint reinforcing mesh
-                      </span>
-                      <span className="font-mono text-sm font-semibold text-gray-500">₱150.00</span>
-                    </li>
-                  </ul>
-                </div>
-                <div className="mt-auto flex flex-col gap-3 border-t border-gray-200 pt-6">
-                  <button onClick={() => setShowGuide(!showGuide)} className="flex w-full items-center justify-center gap-2 rounded-lg py-3 font-bold text-white transition-colors hover:opacity-90" style={{ background: "#E24B4A" }}>
-                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M21 5c-1.11-.35-2.33-.5-3.5-.5-1.95 0-4.05.4-5.5 1.5-1.45-1.1-3.55-1.5-5.5-1.5S2.45 4.9 1 6v14.65c0 .25.25.5.5.5.1 0 .15-.05.25-.05C3.1 20.45 5.05 20 6.5 20c1.95 0 4.05.4 5.5 1.5 1.35-.85 3.8-1.5 5.5-1.5 1.65 0 3.35.3 4.75 1.05.41.21.75-.19.75-.65V6c-.6-.45-1.25-.75-2-1zm0 13.5c-1.1-.35-2.3-.5-3.5-.5-1.7 0-4.15.65-5.5 1.5V8c1.35-.85 3.8-1.5 5.5-1.5 1.2 0 2.4.15 3.5.5v11.5z" />
-                    </svg>
-                    View Full Build Guide
-                  </button>
-                  <a
-                    href="https://shopee.ph/search?keyword=drain+snake+hydraulic+cement"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-gray-400 py-3 font-bold text-gray-700 transition-colors hover:bg-gray-50"
-                  >
-                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z" />
-                    </svg>
-                    Search on Shopee
-                  </a>
-                </div>
-              </div>
+              )}
             </div>
           </div>
-
-          {/* Build Guide */}
-          {showGuide && (
-            <div className="mx-2 rounded-xl border border-gray-300 bg-white p-6 md:mx-4" style={{ marginTop: "24px" }}>
-              <h3 className="mb-4 text-xl font-bold" style={{ color: "#185FA5" }}>Full Build Guide</h3>
-              <ol className="list-decimal space-y-2 pl-5 text-[15px] leading-relaxed text-gray-700">
-                <li>Secure the perimeter with cones and warning signage.</li>
-                <li>Use the heavy-duty drain snake to clear the primary blockage.</li>
-                <li>Inspect joints; apply hydraulic cement to any cracked sections.</li>
-                <li>Embed reinforcing mesh over patched joints before final smoothing.</li>
-                <li>Flush the line with water to confirm flow is restored.</li>
-                <li>Document the repair with photos and update the report status.</li>
-              </ol>
-            </div>
-          )}
         </div>
       </main>
     </PageLayout>
