@@ -72,8 +72,8 @@ Generates a DIY technical solution with a component list, estimated cost in Phil
 
 | Layer | Technology |
 |---|---|
-| **Frontend & App Builder** | Lovable (React + Tailwind CSS) |
-| **AI — Vision & Generation** | Claude API (`claude-sonnet-4-6`) — Anthropic |
+| **Frontend & App Builder** | Lovable & Bolt (React + Tailwind CSS) |
+| **AI — Vision & Generation** | Open Router AI |
 | **AI — Classification** | IBM Watsonx (issue type classification, severity routing) |
 | **API Routes** | Next.js API Routes (`/api/analyze`) |
 | **Deployment** | Vercel |
@@ -263,9 +263,10 @@ NeedBridge is deployed on Vercel.
 
 ## 🙏 Acknowledgements
 
-- [Anthropic](https://anthropic.com) — Claude API
+- [OpenRouterAi](https://openrouter.ai/) — Open Router AI
 - [IBM](https://www.ibm.com/watsonx) — Watsonx AI Platform
 - [Lovable](https://lovable.dev) — AI-powered app builder
+- [Bolt](https://bolt.new/) — AI-powered app builder
 - [Vercel](https://vercel.com) — Deployment platform
 - [Public Lab](https://publiclab.org) — Open hardware documentation reference
 - FEU Institute of Technology — Create & Conquer 2026
@@ -278,4 +279,4 @@ This project was built for hackathon purposes as part of Create & Conquer 2026.
 
 ---
 
-*NeedBridge — From problem to action plan, instantly.*
+*NeedBridge — See it. Solve it.*
