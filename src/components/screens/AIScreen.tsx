@@ -53,7 +53,7 @@ export function AIScreen() {
             </div>
             <div className="flex flex-col gap-2">
               <div className="flex flex-wrap items-center gap-3">
-                <h1 className="m-0 text-[20px] font-bold leading-tight text-gray-900">Clogged Drainage</h1>
+                <h1 className="m-0 text-[20px] font-bold leading-tight text-gray-900">{result.issue_type}</h1>
                 <span className="rounded border border-gray-200 bg-gray-100 px-2 py-0.5 text-xs font-semibold text-gray-500">{result.issue_type}</span>
               </div>
               <div className="flex flex-wrap items-center gap-4">
@@ -67,7 +67,7 @@ export function AIScreen() {
                   <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                   </svg>
-                  Barangay 123
+                  {result.barangay_context || "Location not specified"}
                 </span>
                 <span className="flex items-center gap-1.5 text-sm text-gray-500">
                   <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
