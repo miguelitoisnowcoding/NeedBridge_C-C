@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { PageLayout } from "../layout/PageLayout";
+import holdingHands from "../../../assets/holding-hands.jpg";
 
 const SUBMISSIONS = [
   {
@@ -34,39 +35,49 @@ const SUBMISSIONS = [
 export function HomeScreen() {
   return (
     <PageLayout>
-      {/* Hero Section */}
-      <section className="relative overflow-hidden py-32" style={{ background: "#0C447C" }}>
-        <div
-          className="pointer-events-none absolute inset-0 opacity-30"
-          style={{
-            backgroundImage: "radial-gradient(#185FA5 1px, transparent 1px)",
-            backgroundSize: "24px 24px",
-          }}
-        />
-        <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-6 text-center">
-          <h1 className="mb-6 text-[40px] font-bold leading-tight text-white">
-            See it. Solve it.
-          </h1>
-          <p className="mb-10 max-w-2xl text-lg leading-relaxed text-white/80">
-            From photo to plan — same day.
-          </p>
-          <div className="flex flex-col gap-5 sm:flex-row">
-            <Link
-              to="/submit"
-              className="rounded-lg px-8 py-3.5 text-lg font-bold text-white shadow-lg transition-colors hover:opacity-90"
-              style={{ background: "#E24B4A" }}
-            >
-              Submit a Need
-            </Link>
-            <Link
-              to="/reports"
-              className="rounded-lg border-2 border-white px-8 py-3.5 text-lg font-bold text-white transition-colors hover:bg-white/10"
-            >
-              View Reports
-            </Link>
-          </div>
-        </div>
-      </section>
+          {/* Hero Section */}
+          <section className="relative overflow-hidden py-32" style={{ background: "#0C447C" }}>
+            {/* Background image layer */}
+            <div
+              className="pointer-events-none absolute inset-0 opacity-50"
+              style={{
+                backgroundImage: `url(${holdingHands})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+              }}
+            />
+            {/* Dot pattern overlay */}
+            <div
+              className="pointer-events-none absolute inset-0 opacity-30"
+              style={{
+                backgroundImage: "radial-gradient(#185FA5 1px, transparent 1px)",
+                backgroundSize: "24px 24px",
+              }}
+            />
+            <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center px-6 text-center">
+              <h1 className="mb-6 text-[40px] font-bold leading-tight text-white">
+                See it. Solve it.
+              </h1>
+              <p className="mb-10 max-w-2xl text-lg leading-relaxed text-white/80">
+                From photo to plan — same day.
+              </p>
+              <div className="flex flex-col gap-5 sm:flex-row">
+                <Link
+                  to="/submit"
+                  className="rounded-lg px-8 py-3.5 text-lg font-bold text-white shadow-lg transition-colors hover:opacity-90"
+                  style={{ background: "#E24B4A" }}
+                >
+                  Submit a Need
+                </Link>
+                <Link
+                  to="/reports"
+                  className="rounded-lg border-2 border-white px-8 py-3.5 text-lg font-bold text-white transition-colors hover:bg-white/10"
+                >
+                  View Reports
+                </Link>
+              </div>
+            </div>
+          </section>
 
       {/* Stats Section */}
       <section className="mx-auto max-w-7xl px-6 py-24">
