@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { PageLayout } from "../layout/PageLayout";
 import holdingHands from "../../../assets/holding-hands.jpg";
 
+
 const SUBMISSIONS = [
   {
     priority: "High",
@@ -38,14 +39,7 @@ export function HomeScreen() {
           {/* Hero Section */}
           <section className="relative overflow-hidden py-32" style={{ background: "#0C447C" }}>
             {/* Background image layer */}
-            <div
-              className="pointer-events-none absolute inset-0 opacity-50"
-              style={{
-                backgroundImage: `url(${holdingHands})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-              }}
-            />
+            <div className="pointer-events-none absolute inset-0 opacity-50" style={{ background: "red" }} />
             {/* Dot pattern overlay */}
             <div
               className="pointer-events-none absolute inset-0 opacity-30"
