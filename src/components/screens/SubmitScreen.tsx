@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { analyzeNeed, fileToBase64, NeedBridgeInput } from "@/lib/openrouter";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { PageLayout } from "../layout/PageLayout";
 
@@ -6,14 +7,69 @@ const CATEGORIES = ["Infrastructure", "Water", "Safety", "Other"];
 
 export function SubmitScreen() {
   const navigate = useNavigate();
-  const [category, setCategory] = useState("Infrastructure");
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("Infrastructure");
   const [location, setLocation] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     navigate({ to: "/loading" });
   };
+
+  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (file) {
+      setUploadedFile(file);
+    }
+  };
+
+    const handleSubmit = async () => {
+    // Validate input
+    if (!uploadedFile && !description) {
+      setError("Please upload a photo or describe the issue.");
+      return;
+    }
+  
+    setError(null);
+    setIsAnalyzing(true);
+  
+    try {
+    // Build the input object
+    const input: NeedBridgeInput = {
+      category,
+      location,
+      description: description || undefined,
+    };
+
+    // Convert photo to base64 if provided
+    if (uploadedFile) {
+      input.photoBase64 = await fileToBase64(uploadedFile);
+    }
+
+    // Call the two-stage AI pipeline
+    const result = await analyzeNeed(input);
+
+    // Check for low confidence fallback
+    if ("status" in result && result.status === "LOW_CONFIDENCE_FALLBACK") {
+      setError(result.message);
+      setIsAnalyzing(false);
+      return;
+    }
+
+        // Save result to localStorage and navigate to result screen
+    localStorage.setItem("needbridgeResult", JSON.stringify(result));
+    window.location.href = "/result";
+    
+      } catch (err: any) {
+        setError("Something went wrong. Please try again.");
+        console.error("Submit error:", err);
+      } finally {
+        setIsAnalyzing(false);
+      }
+    };
 
   return (
     <PageLayout>
@@ -91,6 +147,8 @@ export function SubmitScreen() {
                     key={cat}
                     type="button"
                     onClick={() => setCategory(cat)}
+                    value={category}
+                    onChange={(e) => setCategory(e.target.value)}
                     className={`rounded-full border px-5 py-2.5 text-xs font-semibold transition-colors ${
                       category === cat
                         ? "border-transparent text-white"
@@ -151,6 +209,8 @@ export function SubmitScreen() {
                 type="submit"
                 className="flex w-full items-center justify-center gap-2 rounded-xl py-4 text-lg font-bold text-white shadow-md transition-all hover:shadow-lg active:scale-[0.99]"
                 style={{ background: "#E24B4A" }}
+                onClick={handleSubmit}
+                disabled={isAnalyzing}
               >
                 Continue to AI Plan
                 <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
