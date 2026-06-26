@@ -120,15 +120,48 @@ export function SubmitScreen() {
             {/* Photo Upload */}
             <div className="flex flex-col gap-2">
               <label className="text-xs font-bold text-gray-900">Evidence (Required)</label>
-              <div className="flex h-[180px] w-full cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 transition-colors hover:bg-gray-100 group">
-                <div className="flex h-12 w-12 items-center justify-center rounded-full transition-transform group-hover:scale-110" style={{ background: "rgba(24,95,165,0.1)", color: "#185FA5" }}>
-                  <svg className="h-7 w-7" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                  </svg>
-                </div>
-                <div className="text-center">
-                  <p className="font-semibold" style={{ color: "#185FA5" }}>Upload a photo of the issue</p>
-                  <p className="mt-1 text-xs text-gray-400">Drag and drop, or click to browse (Max 5MB)</p>
+              <div className="relative">
+                <input
+                  type="file"
+                  id="photo-upload"
+                  accept="image/*"
+                  onChange={handlePhotoUpload}
+                  className="absolute inset-0 cursor-pointer opacity-0"
+                />
+                <div className="flex h-[180px] w-full cursor-pointer flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-gray-300 bg-gray-50 transition-colors hover:bg-gray-100 group">
+                  {uploadedFile ? (
+                    <>
+                      <img
+                        src={URL.createObjectURL(uploadedFile)}
+                        alt="Uploaded preview"
+                        className="h-full w-full rounded-xl object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setUploadedFile(null);
+                        }}
+                        className="absolute right-2 top-2 rounded-full bg-white/90 p-1.5 shadow-md transition-colors hover:bg-white"
+                      >
+                        <svg className="h-4 w-4 text-gray-600" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                        </svg>
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full transition-transform group-hover:scale-110" style={{ background: "rgba(24,95,165,0.1)", color: "#185FA5" }}>
+                        <svg className="h-7 w-7" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                        </svg>
+                      </div>
+                      <div className="text-center">
+                        <p className="font-semibold" style={{ color: "#185FA5" }}>Upload a photo of the issue</p>
+                        <p className="mt-1 text-xs text-gray-400">Drag and drop, or click to browse (Max 5MB)</p>
+                      </div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>

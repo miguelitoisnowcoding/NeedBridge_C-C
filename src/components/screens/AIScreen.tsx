@@ -260,6 +260,7 @@ export function AIScreen() {
                   </div>
                 </div>
               )}
+              </div>
             </div>
           </div>
         </div>
