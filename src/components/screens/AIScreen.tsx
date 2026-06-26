@@ -144,22 +144,40 @@ export function AIScreen() {
 
                   {/* Escalation button */}
                   <button
-                    onClick={() => {
-                      const agency = result.actnow.escalation_agency || 
-                                     result.gov_escalation?.agency_name || "DPWH";
-                      const subject = `Community Issue Report — ${result.issue_type}`;
-                      const body = result.gov_escalation?.email_template_draft || 
-                                   `We wish to report a ${result.issue_type} issue in our barangay requiring your immediate attention.`;
-                      window.open(
-                        `mailto:${agency.toLowerCase()}@gov.ph?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
-                      );
-                    }}
-                    className="w-full border-2 border-[#185FA5] text-[#185FA5] py-3 rounded-lg font-bold hover:bg-green-50 transition-colors">
-                    🚩 Flag for Escalation — {result.gov_escalation?.agency_name || "Gov Agency"}
-                    </button>
+                  onClick={() => {
+                    const agency = result.gov_escalation?.agency_name || "DPWH";
+                    const issueType = result.issue_type || "Community Issue";
+                    const severity = result.severity || "Medium";
+                    const location = result.barangay_context || "our barangay";
+                    const emailBody = result.gov_escalation?.email_template_draft ||
+                      `Dear ${agency},\n\nWe wish to formally report the following community infrastructure issue requiring your immediate attention:\n\nIssue Type: ${issueType}\nSeverity: ${severity}\nLocation: ${location}\n\nWe request your office to assess and address this matter at the earliest possible time.\n\nThank you.\n\n— Sent via NeedBridge Civic Technology`;
+                
+                    const subject = encodeURIComponent(
+                      `[NeedBridge] ${severity} Priority Report — ${issueType} in ${location}`
+                    );
+                    const body = encodeURIComponent(emailBody);
+                
+                    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+                  }}
+                  className="w-full border-2 border-[#185FA5] text-[#185FA5] py-3 rounded-lg font-bold hover:bg-blue-50 transition-colors">
+                  🚩 Flag for Escalation — {result.gov_escalation?.agency_name || "Gov Agency"}
+                </button>
                 </div>
                 <div className="mt-auto flex flex-col gap-3 border-t border-gray-200 pt-6">
-                  <button onClick={handleFlag} className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-[#185FA5] bg-white py-3 font-bold text-[#185FA5] transition-colors hover:bg-blue-50">
+                  <button
+                    onClick={() => {
+                      const issueType = result.issue_type || "Community Issue";
+                      const severity = result.severity || "Medium";
+                      const location = result.barangay_context || "our barangay";
+                      const subject = encodeURIComponent(
+                        `[NeedBridge] ${severity} Priority — ${issueType} in ${location}`
+                      );
+                      const body = encodeURIComponent(
+                        `Dear City Engineering Office,\n\nWe are reporting a ${severity.toLowerCase()} priority ${issueType.toLowerCase()} in ${location} that requires technical assessment and intervention.\n\nThis report was generated via NeedBridge Civic Technology and has been reviewed by our barangay coordinator.\n\nPlease coordinate with us at your earliest convenience.\n\nThank you.\n\n— Sent via NeedBridge`
+                      );
+                      window.location.href = `mailto:?subject=${subject}&body=${body}`;
+                    }}
+                    className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-[#185FA5] bg-white py-3 font-bold text-[#185FA5] transition-colors hover:bg-blue-50">
                     <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z" />
                     </svg>
