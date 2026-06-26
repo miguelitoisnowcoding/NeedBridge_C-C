@@ -249,7 +249,7 @@ function analyzeWithWatsonX(input: NeedBridgeInput): WatsonXOutput {
 // ============================================================
 // SECTION 4 — STAGE 2: OPENROUTER GENERATION ENGINE
 // Only runs if WatsonX confidence >= 0.6.
-// Passes original input + WatsonX context to Gemini 2.0 Flash.
+// Passes original input + WatsonX context to Gemini 2.5 Flash Lite.
 // Agency names verified against GROUNDED_REFERENCE_TABLE.
 // ============================================================
 
