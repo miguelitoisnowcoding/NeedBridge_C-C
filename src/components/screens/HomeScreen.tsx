@@ -125,7 +125,7 @@ export function HomeScreen() {
       </section>
 
       {/* Recent Submissions */}
-      <section className="mx-auto max-w-7xl bg-[#F5F6FA] px-6 pb-24 pt-32">
+      <section className="mx-auto max-w-7xl bg-[#F5F7FA] px-6 pb-24 pt-32">
         <div className="mb-10 flex items-end justify-between">
           <div>
             <h2 className="text-[28px] font-bold" style={{ color: "#185FA5" }}>

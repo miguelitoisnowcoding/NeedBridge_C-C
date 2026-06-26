@@ -125,7 +125,7 @@ export function AIScreen() {
                   {/* Immediate Actions */}
                   {result.actnow.immediate_actions.map((action, i) => (
                     <div key={i} className="flex gap-3 py-2 border-b border-gray-100">
-                    <div className="w-6 h-6 rounded-full bg-[#2E7D32] text-white flex items-center justify-center text-xs font-bold flex-shrink-0">
+                    <div className="w-6 h-6 rounded-full bg-[#185FA5] text-white flex items-center justify-center text-xs font-bold flex-shrink-0">
                     {i + 1}
                     </div>
                     <p className="text-sm text-gray-700">{action}</p>
@@ -154,7 +154,7 @@ export function AIScreen() {
                         `mailto:${agency.toLowerCase()}@gov.ph?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
                       );
                     }}
-                    className="w-full border-2 border-[#2E7D32] text-[#2E7D32] py-3 rounded-lg font-bold hover:bg-green-50 transition-colors">
+                    className="w-full border-2 border-[#185FA5] text-[#185FA5] py-3 rounded-lg font-bold hover:bg-green-50 transition-colors">
                     🚩 Flag for Escalation — {result.gov_escalation?.agency_name || "Gov Agency"}
                     </button>
                 </div>
@@ -181,14 +181,14 @@ export function AIScreen() {
                {result.buildit && (
                 <div className="bg-white rounded-xl shadow-md overflow-hidden">
                   {/* Amber header */}
-                  <div className="bg-[#F57C00] px-6 py-4">
+                  <div className="bg-[#E24B4A] px-6 py-4">
                     <h2 className="text-white font-bold text-lg">
                       🔧 BuildIt
                     </h2>
                   </div>
                   <div className="p-6 space-y-4">
               
-                    <h3 className="font-bold text-[#1A3C5E] text-lg">
+                    <h3 className="font-bold text-[#0F1E33] text-lg">
                       {result.buildit.solution_name}
                     </h3>
               
@@ -217,7 +217,7 @@ export function AIScreen() {
                               x{part.quantity}
                             </span>
                           </div>
-                          <span className="text-sm font-bold text-[#1A3C5E]">
+                          <span className="text-sm font-bold text-[#0F1E33]">
                             {part.est_price}
                           </span>
                         </div>
@@ -231,7 +231,7 @@ export function AIScreen() {
                       </h4>
                       {result.buildit.build_steps.map((step, i) => (
                         <div key={i} className="flex gap-3 mb-3">
-                          <div className="w-7 h-7 rounded-full bg-[#F57C00] text-white 
+                          <div className="w-7 h-7 rounded-full bg-[#E24B4A] text-white 
                                           flex items-center justify-center font-bold 
                                           text-sm flex-shrink-0">
                             {i + 1}
