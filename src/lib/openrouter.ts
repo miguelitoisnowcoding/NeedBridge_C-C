@@ -5,7 +5,7 @@
 // Stage 2: OpenRouter Generation Engine (response generation)
 // ============================================================
 
-const OPENROUTER_API_KEY = "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";
+import { generateNeedBridgePlan } from "./openrouter.functions";
 
 // ============================================================
 // SECTION 1 — TYPES AND INTERFACES
