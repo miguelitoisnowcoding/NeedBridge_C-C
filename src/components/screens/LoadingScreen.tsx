@@ -11,7 +11,6 @@ export function LoadingScreen() {
     return () => clearTimeout(timer);
   }, [navigate]);
 
-  if (isAnalyzing) {
   return (
     <div className="min-h-screen bg-[#F5F7FA] flex items-center justify-center">
       <div className="bg-white rounded-2xl shadow-lg p-12 max-w-md w-full text-center">
@@ -46,5 +45,4 @@ export function LoadingScreen() {
       </div>
     </div>
   );
-}
 }
