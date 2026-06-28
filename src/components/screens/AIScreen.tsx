@@ -67,7 +67,7 @@ export function AIScreen() {
                   <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                   </svg>
-                  {result.barangay_context || "Location not specified"}
+                  {(result as { barangay_context?: string }).barangay_context || "Location not specified"}
                 </span>
                 <span className="flex items-center gap-1.5 text-sm text-gray-500">
                   <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
@@ -145,7 +145,7 @@ export function AIScreen() {
                   {/* Escalation button */}
                   <button
                     onClick={() => {
-                      const agency = result.actnow.escalation_agency || 
+                      const agency = (result.actnow as { escalation_agency?: string }).escalation_agency ||
                                      result.gov_escalation?.agency_name || "DPWH";
                       const subject = `Community Issue Report — ${result.issue_type}`;
                       const body = result.gov_escalation?.email_template_draft || 
