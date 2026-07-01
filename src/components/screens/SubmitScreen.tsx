@@ -2,6 +2,12 @@ import { useState } from "react";
 import { analyzeNeed, fileToBase64, NeedBridgeInput } from "@/lib/openrouter";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { PageLayout } from "../layout/PageLayout";
+import {
+  activateDemo,
+  clearDemoFlag,
+  DEFAULT_DEMO,
+  getDemoByFilename,
+} from "@/lib/demoResults";
 
 const CATEGORIES = ["Infrastructure", "Water", "Safety", "Other"];
 
@@ -31,7 +37,17 @@ export function SubmitScreen() {
   
     setError(null);
     setIsAnalyzing(true);
-  
+
+    // Demo-mode short-circuit: matches one of the pre-selected demo photos.
+    if (uploadedFile) {
+      const demo = getDemoByFilename(uploadedFile.name);
+      if (demo) {
+        activateDemo(demo);
+        await navigate({ to: "/loading" });
+        return;
+      }
+    }
+
     try {
     // Build the input object
     const input: NeedBridgeInput = {
@@ -56,15 +72,25 @@ export function SubmitScreen() {
     }
 
         // Save result to localStorage and navigate to result screen
+    clearDemoFlag();
     localStorage.setItem("needbridgeResult", JSON.stringify(result));
     await navigate({ to: "/ai" });
       } catch (err: any) {
-        setError("Something went wrong. Please try again.");
-        console.error("Submit error:", err);
+        // API unavailable → gracefully fall back to demo mode.
+        console.error("Submit error, falling back to demo:", err);
+        activateDemo(DEFAULT_DEMO);
+        await navigate({ to: "/loading" });
+        return;
       } finally {
         setIsAnalyzing(false);
       }
     };
+
+  const handleTryDemo = async () => {
+    setError(null);
+    activateDemo(DEFAULT_DEMO);
+    await navigate({ to: "/loading" });
+  };
 
   return (
     <PageLayout>
@@ -244,6 +270,20 @@ export function SubmitScreen() {
                   <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" />
                 </svg>
               </button>
+              <div className="mt-4 flex flex-col items-center gap-1">
+                <button
+                  type="button"
+                  onClick={handleTryDemo}
+                  disabled={isAnalyzing}
+                  className="w-full rounded-xl border-2 bg-white py-3 text-sm font-bold transition-colors hover:bg-[#1A3C5E]/5 disabled:opacity-50"
+                  style={{ borderColor: "#1A3C5E", color: "#1A3C5E" }}
+                >
+                  ✨ Try a Demo Instead
+                </button>
+                <p className="text-xs text-gray-500">
+                  See how NeedBridge works with a sample report.
+                </p>
+              </div>
               <p className="mt-3 flex items-center justify-center gap-1 text-center text-xs text-gray-400">
                 <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />

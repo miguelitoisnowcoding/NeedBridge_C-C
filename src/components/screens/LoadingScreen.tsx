@@ -7,7 +7,7 @@ export function LoadingScreen() {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate({ to: "/ai" });
-    }, 3500);
+    }, 3000);
     return () => clearTimeout(timer);
   }, [navigate]);
 

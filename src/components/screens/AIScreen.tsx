@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { NeedBridgeOutput } from "@/lib/openrouter";
 import { Link } from "@tanstack/react-router";
 import { PageLayout } from "../layout/PageLayout";
+import { DEMO_MODE_KEY } from "@/lib/demoResults";
 
 export function AIScreen() {
   const [showGuide, setShowGuide] = useState(false);
   const [result, setResult] = useState<NeedBridgeOutput | null>(null);
+  const [isDemo, setIsDemo] = useState(false);
   useEffect(() => {
     const stored = localStorage.getItem("needbridgeResult");
     if (stored) {
@@ -15,6 +17,7 @@ export function AIScreen() {
         console.error("Failed to parse stored result");
       }
     }
+    setIsDemo(localStorage.getItem(DEMO_MODE_KEY) === "true");
   }, []);
   
   if (!result) {
@@ -42,6 +45,14 @@ export function AIScreen() {
 
   return (
     <PageLayout>
+      {isDemo && (
+        <div
+          className="w-full text-center text-xs font-semibold text-white"
+          style={{ background: "#F57C00", padding: "6px 12px" }}
+        >
+          ✨ Demo Mode — This is a sample result. Real submissions are analyzed live by AI.
+        </div>
+      )}
       {/* Issue Summary Bar */}
       <div className="w-full border-b border-gray-200 bg-white shadow-sm">
         <div className="mx-auto flex max-w-7xl flex-col items-start gap-6 px-4 py-6 md:flex-row md:items-center md:justify-between md:px-8">
