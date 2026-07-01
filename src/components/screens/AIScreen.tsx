@@ -29,11 +29,14 @@ export function AIScreen() {
   }
 
   const handleFlag = () => {
-    const subject = encodeURIComponent("NeedBridge Escalation: Clogged Drainage - Barangay 123");
-    const body = encodeURIComponent(
-      "Please find attached the AI-generated action plan for escalation review.\n\nIssue: Clogged Drainage\nSeverity: High\nLocation: Barangay 123\n\n— Sent via NeedBridge"
-    );
-    window.location.href = `mailto:engineering@city.gov.ph?subject=${subject}&body=${body}`;
+    const issueType = result.issue_type ?? "Community Issue";
+    const severity = result.severity ?? "Unknown";
+    const subject = encodeURIComponent(`NeedBridge Escalation: ${issueType} — Severity: ${severity}`);
+    const agency = result.gov_escalation?.agency_name ?? "relevant agency";
+    const emailBody = result.gov_escalation?.email_template_draft
+      ?? `Please find attached the AI-generated action plan for escalation review.\n\nIssue: ${issueType}\nSeverity: ${severity}\n\n— Sent via NeedBridge`;
+    const body = encodeURIComponent(emailBody);
+    window.location.href = `mailto:contact@${agency.toLowerCase()}.gov.ph?subject=${subject}&body=${body}`;
   };
 
   const handleShare = () => {
@@ -117,7 +120,7 @@ export function AIScreen() {
               AI Recommended Action Plan
             </h2>
             <p className="max-w-3xl text-[15px] leading-relaxed text-gray-500">
-              Based on the submitted data and historical infrastructure patterns in Barangay 123, the following three-tiered response plan has been generated to address the severe drainage blockage and prevent immediate flooding.
+              Based on the submitted data and AI classification, the following response plan has been generated to address this {result.issue_type?.toLowerCase() ?? "community issue"}.
             </p>
           </div>
 

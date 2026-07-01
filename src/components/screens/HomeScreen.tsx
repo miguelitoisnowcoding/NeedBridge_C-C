@@ -1,37 +1,22 @@
 import { Link } from "@tanstack/react-router";
 import { PageLayout } from "../layout/PageLayout";
 import holdingHands from "../../../assets/holding-hands.jpg";
+import { MOCK_SUBMISSIONS } from "@/lib/mockData";
 
+const RECENT_SUBMISSIONS = MOCK_SUBMISSIONS.slice(0, 3);
 
-const SUBMISSIONS = [
-  {
-    priority: "High",
-    priorityColor: "#C62828",
-    bgColor: "bg-red-50",
-    time: "2 hrs ago",
-    title: "Collapsed Footbridge",
-    desc: "Main wooden footbridge connecting Purok 4 to the market has collapsed due to heavy rains. Immediate action required.",
-    location: "Barangay San Isidro",
-  },
-  {
-    priority: "Medium",
-    priorityColor: "#F9A825",
-    bgColor: "bg-yellow-50",
-    time: "1 day ago",
-    title: "Clogged Drainage System",
-    desc: "The drainage along Rizal Street is heavily clogged with debris, causing minor flooding during afternoon showers.",
-    location: "Barangay Poblacion",
-  },
-  {
-    priority: "Low",
-    priorityColor: "#388E3C",
-    bgColor: "bg-green-50",
-    time: "3 days ago",
-    title: "Broken Streetlights",
-    desc: "Three streetlights near the basketball court have been non-functional for a week, posing security concerns at night.",
-    location: "Barangay Mabini",
-  },
-];
+function severityColor(severity: string) {
+  if (severity === "High") return "#C62828";
+  if (severity === "Medium") return "#F9A825";
+  return "#388E3C";
+}
+
+function severityBgClass(severity: string) {
+  if (severity === "High") return "bg-red-50";
+  if (severity === "Medium") return "bg-yellow-50";
+  return "bg-green-50";
+}
+
 
 export function HomeScreen() {
   return (
@@ -160,35 +145,41 @@ export function HomeScreen() {
         </div>
 
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {SUBMISSIONS.map((sub) => (
-            <Link
-              key={sub.title}
-              to="/ai"
-              className="flex flex-col rounded-xl border border-gray-100 bg-white p-8 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px_-2px_rgba(0,0,0,0.05)]"
-              style={{ borderTop: `6px solid ${sub.priorityColor}` }}
+          {RECENT_SUBMISSIONS.map((sub) => (
+            <div
+              key={sub.id}
+              className="flex flex-col rounded-xl border border-gray-100 bg-white p-8 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.05),0_2px_4px_-1px_rgba(0,0,0,0.03)]"
+              style={{ borderTop: `6px solid ${severityColor(sub.severity)}` }}
             >
               <div className="mb-6 flex items-start justify-between">
-                <div className={`rounded px-3 py-1.5 text-xs font-bold uppercase tracking-wider ${sub.bgColor}`} style={{ color: sub.priorityColor }}>
-                  {sub.priority} Priority
+                <div
+                  className={`rounded px-3 py-1.5 text-xs font-bold uppercase tracking-wider ${severityBgClass(sub.severity)}`}
+                  style={{ color: severityColor(sub.severity) }}
+                >
+                  {sub.severity} Priority
                 </div>
-                <span className="text-sm font-medium text-gray-400">{sub.time}</span>
+                <span className="text-sm font-medium text-gray-400">{sub.date}</span>
               </div>
-              <h3 className="mb-3 text-[20px] font-bold leading-snug text-gray-900">{sub.title}</h3>
-              <p className="mb-8 line-clamp-2 text-base leading-relaxed text-gray-500">{sub.desc}</p>
+              <h3 className="mb-3 text-[20px] font-bold leading-snug text-gray-900">
+                {sub.description}
+              </h3>
+              <p className="mb-8 line-clamp-2 text-base leading-relaxed text-gray-500">
+                {sub.location}
+              </p>
               <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-5">
                 <div className="flex items-center gap-2 text-sm font-medium text-gray-500">
                   <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
                   </svg>
-                  {sub.location}
+                  {sub.barangay}
                 </div>
-                <span className="rounded-full p-2 transition-colors hover:bg-gray-50" style={{ color: "#185FA5" }}>
-                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M9.29 6.71c-.39.39-.39 1.02 0 1.41L13.17 12l-3.88 3.88c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0l4.59-4.59c.39-.39.39-1.02 0-1.41L10.7 6.71c-.39-.39-1.02-.39-1.41 0z" />
-                  </svg>
+                <span
+                  className={`rounded-full px-2.5 py-1 text-xs font-semibold ${sub.status === "Resolved" ? "bg-[#DCFCE7] text-[#166534]" : sub.status === "In Progress" ? "bg-[#FEF9C3] text-[#854D0E]" : "bg-[#DBEAFE] text-[#185FA5]"}`}
+                >
+                  {sub.status}
                 </span>
               </div>
-            </Link>
+            </div>
           ))}
         </div>
 
