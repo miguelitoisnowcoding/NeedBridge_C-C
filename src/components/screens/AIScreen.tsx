@@ -134,51 +134,77 @@ export function AIScreen() {
                 </svg>
                 <h3 className="text-xl font-semibold">ActNow</h3>
               </div>
-              <div className="flex flex-grow flex-col gap-6 p-6">
+              <div className="flex flex-grow flex-col p-6">
+                {/* Immediate Actions */}
                 <div>
-                  {/* Immediate Actions */}
-                  {result.actnow?.immediate_actions.map((action, i) => (
-                    <div key={i} className="flex gap-3 py-2 border-b border-gray-100">
-                    <div className="w-6 h-6 rounded-full bg-[#185FA5] text-white flex items-center justify-center text-xs font-bold flex-shrink-0">
-                    {i + 1}
-                    </div>
-                    <p className="text-sm text-gray-700">{action}</p>
-                    </div>
-                  ))}
+                  <p className="text-xs font-bold uppercase tracking-wider text-gray-800 mb-3">
+                    Immediate Actions
+                  </p>
+                  <div className="flex flex-col">
+                    {result.actnow?.immediate_actions.map((action, i) => (
+                      <div key={i} className="flex gap-3 py-2 border-b border-gray-100 last:border-0">
+                        <div className="w-6 h-6 rounded-full bg-[#185FA5] text-white flex items-center justify-center text-xs font-bold flex-shrink-0">
+                          {i + 1}
+                        </div>
+                        <p className="text-sm text-gray-700">{action}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
-                  {/* Short Term Steps */}
-                  {result.actnow?.short_term_steps.map((step, i) => (
-                    <p key={i} className="text-sm text-gray-700">• {step}</p>
-                  ))}
+                {/* Short-Term Coordination */}
+                <div className="mt-5 pt-5 border-t border-gray-100">
+                  <p className="text-xs font-bold uppercase tracking-wider text-gray-800 mb-3">
+                    Short-Term Coordination
+                  </p>
+                  <div className="flex flex-col gap-2">
+                    {result.actnow?.short_term_steps.map((step, i) => (
+                      <p key={i} className="text-sm text-gray-700 pl-2">• {step}</p>
+                    ))}
+                  </div>
+                </div>
 
-                  {/* Resources */}
-                  {result.actnow?.resources_needed.map((resource, i) => (
-                    <p key={i} className="text-sm text-gray-600">• {resource}</p>
-                  ))}
+                {/* Resources Needed */}
+                <div className="mt-5 pt-5 border-t border-gray-100">
+                  <p className="text-xs font-bold uppercase tracking-wider text-gray-800 mb-3">
+                    Resources Needed
+                  </p>
+                  <div className="flex flex-col gap-2">
+                    {result.actnow?.resources_needed.map((resource, i) => (
+                      <p key={i} className="text-sm text-gray-700 pl-2">• {resource}</p>
+                    ))}
+                  </div>
+                </div>
 
-                  {/* Escalation button */}
+                {/* Escalation Buttons */}
+                <div className="mt-6 pt-6 border-t border-gray-200 flex flex-col gap-3">
                   <button
                     onClick={() => {
                       const agency = (result.actnow as { escalation_agency?: string }).escalation_agency ||
                                      result.gov_escalation?.agency_name || "DPWH";
                       const subject = `Community Issue Report — ${result.issue_type}`;
-                      const body = result.gov_escalation?.email_template_draft || 
+                      const body = result.gov_escalation?.email_template_draft ||
                                    `We wish to report a ${result.issue_type} issue in our barangay requiring your immediate attention.`;
                       window.open(
                         `mailto:${agency.toLowerCase()}@gov.ph?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
                       );
                     }}
-                    className="w-full border-2 border-[#185FA5] text-[#185FA5] py-3 rounded-lg font-bold hover:bg-green-50 transition-colors">
+                    className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-[#185FA5] bg-white py-3 font-bold text-[#185FA5] transition-colors hover:bg-blue-50"
+                  >
+                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z" />
+                    </svg>
                     🚩 Flag for Escalation — {result.gov_escalation?.agency_name || "Gov Agency"}
-                    </button>
-                </div>
-                <div className="mt-auto flex flex-col gap-3 border-t border-gray-200 pt-6">
-                  <button onClick={handleFlag} className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-[#185FA5] bg-white py-3 font-bold text-[#185FA5] transition-colors hover:bg-blue-50">
-                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z" />
-                  </svg>
-                  Flag for City Engineering Office
-                </button>
+                  </button>
+                  <button
+                    onClick={handleFlag}
+                    className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-[#185FA5] bg-white py-3 font-bold text-[#185FA5] transition-colors hover:bg-blue-50"
+                  >
+                    <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M14.4 6L14 4H5v17h2v-7h5.6l.4 2h7V6z" />
+                    </svg>
+                    Flag for City Engineering Office
+                  </button>
                 </div>
               </div>
             </div>
