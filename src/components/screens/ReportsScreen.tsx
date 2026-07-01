@@ -1,5 +1,8 @@
+import { useState, useEffect } from "react";
 import { PageLayout } from "../layout/PageLayout";
-import { MOCK_SUBMISSIONS } from "@/lib/mockData";
+import { MOCK_SUBMISSIONS, type MockSubmission } from "@/lib/mockData";
+
+const FILTERS = ["All", "Open", "In Progress", "Resolved"];
 
 function severityColor(severity: string) {
   if (severity === "High") return "#C62828";
@@ -19,7 +22,207 @@ function statusDotClass(status: string) {
   return "bg-green-500";
 }
 
+function SeverityBadge({ severity }: { severity: string }) {
+  if (severity === "High")
+    return (
+      <span className="bg-[#FEE2E2] text-[#C62828] font-bold rounded-full px-3 py-1 text-[13px]">
+        {severity}
+      </span>
+    );
+  if (severity === "Medium")
+    return (
+      <span className="bg-[#FEF9C3] text-[#854D0E] font-bold rounded-full px-3 py-1 text-[13px]">
+        {severity}
+      </span>
+    );
+  return (
+    <span className="bg-[#DCFCE7] text-[#166534] font-bold rounded-full px-3 py-1 text-[13px]">
+      {severity}
+    </span>
+  );
+}
+
+function StatusPill({ status }: { status: string }) {
+  if (status === "Open")
+    return (
+      <span className="bg-[#DBEAFE] text-[#185FA5] font-semibold rounded-full px-3 py-1 text-sm">
+        {status}
+      </span>
+    );
+  if (status === "In Progress")
+    return (
+      <span className="bg-[#FEF9C3] text-[#854D0E] font-semibold rounded-full px-3 py-1 text-sm">
+        {status}
+      </span>
+    );
+  return (
+    <span className="bg-[#DCFCE7] text-[#166534] font-semibold rounded-full px-3 py-1 text-sm">
+      {status}
+    </span>
+  );
+}
+
+interface DetailPanelProps {
+  submission: MockSubmission;
+  onClose: () => void;
+}
+
+function DetailPanel({ submission: s, onClose }: DetailPanelProps) {
+  const [toast, setToast] = useState(false);
+
+  const subject = encodeURIComponent(
+    `[NeedBridge] ${s.severity} — ${s.description} in ${s.location}`
+  );
+  const body = encodeURIComponent(s.gov_escalation.email_template_draft);
+
+  const handleShare = () => {
+    const url = window.location.href + "?report=" + s.id;
+    navigator.clipboard.writeText(url).then(() => {
+      setToast(true);
+      setTimeout(() => setToast(false), 2000);
+    });
+  };
+
+  return (
+    <div className="fixed right-0 top-0 z-50 flex h-full w-full flex-col bg-white shadow-xl border-l border-gray-200 overflow-hidden sm:w-[420px]">
+      {/* Header */}
+      <div className="flex flex-col gap-3 p-6 flex-shrink-0" style={{ background: "#185FA5" }}>
+        <div className="flex items-start justify-between gap-3">
+          <div className="flex flex-col gap-1 min-w-0">
+            <h2 className="font-bold text-lg text-white leading-snug">{s.description}</h2>
+            <p className="text-white/70 text-sm">{s.location}</p>
+          </div>
+          <button
+            onClick={onClose}
+            className="shrink-0 rounded-full p-1.5 text-white/70 hover:bg-white/20 hover:text-white transition-colors"
+          >
+            <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+            </svg>
+          </button>
+        </div>
+        <div className="flex items-center gap-2">
+          <SeverityBadge severity={s.severity} />
+          <StatusPill status={s.status} />
+        </div>
+      </div>
+
+      {/* Scrollable body */}
+      <div className="flex-1 overflow-y-auto">
+        {/* ActNow */}
+        <div className="p-6 border-b border-gray-100">
+          <p className="text-sm font-semibold mb-4" style={{ color: "#185FA5" }}>
+            🟢 ActNow — Immediate Steps
+          </p>
+          <div className="flex flex-col">
+            {s.actnow.immediate_actions.map((action, i) => (
+              <div
+                key={i}
+                className="flex items-start gap-3 py-3 border-b border-gray-50 last:border-0"
+              >
+                <div
+                  className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white"
+                  style={{ background: "#185FA5" }}
+                >
+                  {i + 1}
+                </div>
+                <p className="text-sm text-gray-700">{action.replace(/^\d+\.\s*/, "")}</p>
+              </div>
+            ))}
+          </div>
+          {s.actnow.short_term_steps.length > 0 && (
+            <div className="mt-4 flex flex-col gap-1">
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+                Short-term Steps
+              </p>
+              {s.actnow.short_term_steps.map((step, i) => (
+                <p key={i} className="text-sm text-gray-500 pl-2">
+                  • {step.replace(/^\d+\.\s*/, "")}
+                </p>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* BuildIt */}
+        {s.buildit && (
+          <div className="p-6 border-b border-gray-100">
+            <p className="text-sm font-semibold mb-4" style={{ color: "#E24B4A" }}>
+              🔧 BuildIt — Community Fix
+            </p>
+            <p className="font-bold text-[#0F1E33] mb-3">{s.buildit.solution_name}</p>
+            <div className="flex items-center gap-2 mb-4">
+              <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">
+                {s.buildit.difficulty_level}
+              </span>
+              <span className="bg-gray-100 text-gray-600 text-xs px-3 py-1 rounded-full">
+                {s.buildit.estimated_time}
+              </span>
+            </div>
+            <div className="flex flex-col">
+              {s.buildit.parts_list.map((part, i) => (
+                <div
+                  key={i}
+                  className="flex items-center justify-between py-2.5 border-b border-gray-50 last:border-0"
+                >
+                  <span className="text-sm text-gray-700">
+                    {part.item}{" "}
+                    <span className="text-gray-400 text-xs">x{part.quantity}</span>
+                  </span>
+                  <span className="text-sm font-bold" style={{ color: "#185FA5" }}>
+                    {part.est_price}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Footer */}
+      <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4 flex flex-col gap-3 flex-shrink-0">
+        <a
+          href={`mailto:contact@${s.gov_escalation.agency_name.toLowerCase()}.gov.ph?subject=${subject}&body=${body}`}
+          className="w-full flex items-center justify-center rounded-lg py-3 font-bold transition-colors border-2 hover:bg-blue-50 text-sm"
+          style={{ borderColor: "#185FA5", color: "#185FA5" }}
+        >
+          🚩 Flag for Escalation — {s.gov_escalation.agency_name}
+        </a>
+        <button
+          onClick={handleShare}
+          className="w-full rounded-lg py-3 font-bold text-white transition-colors text-sm hover:bg-[#0C447C]"
+          style={{ background: "#185FA5" }}
+        >
+          🔗 Share Report
+        </button>
+        {toast && (
+          <div className="rounded-lg bg-[#388E3C] px-4 py-2 text-center text-sm font-bold text-white">
+            🔗 Link copied to clipboard!
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export function ReportsScreen() {
+  const [activeFilter, setActiveFilter] = useState("All");
+  const [selectedSubmission, setSelectedSubmission] = useState<MockSubmission | null>(null);
+
+  useEffect(() => {
+    const savedId = localStorage.getItem("selectedReportId");
+    if (savedId) {
+      const found = MOCK_SUBMISSIONS.find((s) => s.id === Number(savedId));
+      if (found) setSelectedSubmission(found);
+      localStorage.removeItem("selectedReportId");
+    }
+  }, []);
+
+  const filteredSubmissions =
+    activeFilter === "All"
+      ? MOCK_SUBMISSIONS
+      : MOCK_SUBMISSIONS.filter((s) => s.status === activeFilter);
+
   return (
     <PageLayout>
       {/* Page Header */}
@@ -69,12 +272,31 @@ export function ReportsScreen() {
           </div>
         </section>
 
+        {/* Filter Pills */}
+        <div className="flex gap-2 flex-wrap">
+          {FILTERS.map((filter) => (
+            <button
+              key={filter}
+              onClick={() => setActiveFilter(filter)}
+              className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
+                activeFilter === filter
+                  ? "text-white"
+                  : "bg-white border border-gray-200 text-gray-500 hover:border-[#185FA5] hover:text-[#185FA5]"
+              }`}
+              style={activeFilter === filter ? { background: "#185FA5" } : {}}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
+
         {/* Reports Grid */}
         <section className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {MOCK_SUBMISSIONS.map((report) => (
+          {filteredSubmissions.map((report) => (
             <div
               key={report.id}
-              className="flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:shadow-lg"
+              onClick={() => setSelectedSubmission(report)}
+              className="flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-[#185FA5] hover:scale-[1.01] cursor-pointer"
               style={{ borderLeft: `4px solid ${severityColor(report.severity)}` }}
             >
               <div className="flex flex-grow flex-col gap-4 p-6">
@@ -126,6 +348,15 @@ export function ReportsScreen() {
           ))}
         </section>
 
+        {filteredSubmissions.length === 0 && (
+          <div className="flex flex-col items-center justify-center py-16 text-gray-400">
+            <svg className="h-12 w-12 mb-3" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
+            </svg>
+            <p className="text-sm font-medium">No reports found for "{activeFilter}"</p>
+          </div>
+        )}
+
         <div className="flex justify-center">
           <button
             className="rounded-lg border-2 px-8 py-3 text-sm font-bold shadow-sm transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2"
@@ -135,6 +366,22 @@ export function ReportsScreen() {
           </button>
         </div>
       </main>
+
+      {/* Mobile overlay */}
+      {selectedSubmission && (
+        <div
+          className="fixed inset-0 z-40 bg-black/40 lg:hidden"
+          onClick={() => setSelectedSubmission(null)}
+        />
+      )}
+
+      {/* Detail Panel */}
+      {selectedSubmission && (
+        <DetailPanel
+          submission={selectedSubmission}
+          onClose={() => setSelectedSubmission(null)}
+        />
+      )}
     </PageLayout>
   );
 }
