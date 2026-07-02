@@ -309,3 +309,46 @@ export const MOCK_STATS = {
 };
 
 export type MockSubmission = (typeof MOCK_SUBMISSIONS)[number];
+
+export const DEMO_AI_STATS: Record<string, {
+  confidenceRate: number;
+  blueprintMatchRate: number;
+  blueprintUseRate: number;
+  similarCasesResolved: number;
+  avgResolutionDays: number;
+  aiWarning: string;
+}> = {
+  "Drainage Blockage": {
+    confidenceRate: 94,
+    blueprintMatchRate: 91,
+    blueprintUseRate: 78,
+    similarCasesResolved: 47,
+    avgResolutionDays: 2,
+    aiWarning: "This plan was generated from photo analysis and reported symptoms of drainage blockage. Flooding severity may differ on-site. NeedBridge recommends a physical inspection of the drainage opening before deploying the DIY Drainage De-clogger blueprint."
+  },
+  "Road Damage": {
+    confidenceRate: 81,
+    blueprintMatchRate: 86,
+    blueprintUseRate: 69,
+    similarCasesResolved: 33,
+    avgResolutionDays: 1,
+    aiWarning: "Cold mix asphalt is a temporary community-level patch only. This blueprint is not a substitute for permanent DPWH road repair. The patch may degrade under heavy vehicle load within 2-4 weeks. A formal DPWH inspection request has been included in the ActNow plan."
+  },
+  "Streetlight Failure": {
+    confidenceRate: 76,
+    blueprintMatchRate: 73,
+    blueprintUseRate: 54,
+    similarCasesResolved: 19,
+    avgResolutionDays: 3,
+    aiWarning: "Electrical infrastructure carries serious safety risks. The LED Streetlight Bulb Replacement blueprint must only be executed by or with a licensed electrician. Do not attempt bulb or wiring replacement without turning off the circuit breaker first. MERALCO has been identified as the relevant escalation contact."
+  }
+};
+
+export const FALLBACK_AI_STATS = {
+  confidenceRate: null as number | null,
+  blueprintMatchRate: null as number | null,
+  blueprintUseRate: null as number | null,
+  similarCasesResolved: null as number | null,
+  avgResolutionDays: null as number | null,
+  aiWarning: "This plan was generated in real time by NeedBridge AI using IBM Watsonx classification and Google Gemini 2.5 Flash generation. Results are based solely on the submitted photo and description. Always verify AI-generated action steps with a qualified barangay official before implementation."
+};
