@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { PageLayout } from "../layout/PageLayout";
 import { MOCK_SUBMISSIONS, type MockSubmission } from "@/lib/mockData";
 
-const FILTERS = ["All", "Open", "In Progress", "Resolved"];
+const STATUS_FILTERS = ["All", "Open", "In Progress", "Resolved"];
+const SEVERITY_FILTERS = ["All", "High", "Medium", "Low"];
+const CATEGORY_FILTERS = ["All", "Water", "Infrastructure", "Safety", "Other"];
 
 function severityColor(severity: string) {
   if (severity === "High") return "#C62828";
@@ -206,7 +208,10 @@ function DetailPanel({ submission: s, onClose }: DetailPanelProps) {
 }
 
 export function ReportsScreen() {
-  const [activeFilter, setActiveFilter] = useState("All");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [severityFilter, setSeverityFilter] = useState("All");
+  const [categoryFilter, setCategoryFilter] = useState("All");
   const [selectedSubmission, setSelectedSubmission] = useState<MockSubmission | null>(null);
 
   useEffect(() => {
@@ -218,10 +223,40 @@ export function ReportsScreen() {
     }
   }, []);
 
-  const filteredSubmissions =
-    activeFilter === "All"
-      ? MOCK_SUBMISSIONS
-      : MOCK_SUBMISSIONS.filter((s) => s.status === activeFilter);
+  const filteredSubmissions = MOCK_SUBMISSIONS.filter((s) => {
+    const matchesSearch =
+      searchTerm === "" ||
+      s.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      s.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      `#00${s.id}`.includes(searchTerm);
+
+    const matchesStatus = statusFilter === "All" || s.status === statusFilter;
+    const matchesSeverity = severityFilter === "All" || s.severity === severityFilter;
+    const matchesCategory = categoryFilter === "All" || s.type === categoryFilter;
+
+    return matchesSearch && matchesStatus && matchesSeverity && matchesCategory;
+  });
+
+  const hasActiveFilters =
+    searchTerm !== "" ||
+    statusFilter !== "All" ||
+    severityFilter !== "All" ||
+    categoryFilter !== "All";
+
+  const clearAllFilters = () => {
+    setSearchTerm("");
+    setStatusFilter("All");
+    setSeverityFilter("All");
+    setCategoryFilter("All");
+  };
+
+  const getSeverityPillStyle = ( sev: string, isActive: boolean) => {
+    if (!isActive) return "bg-gray-100 text-gray-500 hover:bg-gray-200";
+    if (sev === "All") return "bg-[#185FA5] text-white";
+    if (sev === "High") return "bg-[#C62828] text-white";
+    if (sev === "Medium") return "bg-[#F9A825] text-[#0F1E33]";
+    return "bg-[#388E3C] text-white";
+  };
 
   return (
     <PageLayout>
@@ -238,12 +273,13 @@ export function ReportsScreen() {
         </div>
       </section>
 
-      <main className="mx-auto flex w-full max-w-7xl flex-col gap-10 px-6 py-8">
-        {/* Search and Filter Row */}
-        <section className="flex flex-col items-center gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm md:flex-row">
-          <div className="relative w-full flex-grow">
+      <main className="mx-auto flex w-full max-w-7xl flex-col px-6 py-8">
+        {/* Unified Filter Bar */}
+        <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-4 flex flex-col gap-4 mb-8">
+          {/* Row 1: Search bar */}
+          <div className="relative w-full">
             <svg
-              className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-gray-400"
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4 pointer-events-none"
               viewBox="0 0 24 24"
               fill="currentColor"
             >
@@ -251,120 +287,218 @@ export function ReportsScreen() {
             </svg>
             <input
               type="text"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search by keyword, location, or report ID..."
-              className="w-full rounded-md border border-gray-200 bg-gray-50 py-2.5 pr-4 pl-12 text-sm text-gray-900 placeholder-gray-400 focus:border-gray-400 focus:ring-2 focus:ring-gray-300 focus:outline-none"
-              style={{ borderLeft: "4px solid #185FA5" }}
+              className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#185FA5]/20 focus:border-[#185FA5] transition-colors"
             />
           </div>
-          <div className="flex w-full gap-3 overflow-x-auto pb-2 md:w-auto md:pb-0">
-            <button className="flex items-center gap-2 whitespace-nowrap rounded-md border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50">
-              <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" />
-              </svg>
-              Status
-            </button>
-            <button className="whitespace-nowrap rounded-md border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50">
-              Severity
-            </button>
-            <button className="whitespace-nowrap rounded-md border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50">
-              Category
-            </button>
-          </div>
-        </section>
 
-        {/* Filter Pills */}
-        <div className="flex gap-2 flex-wrap">
-          {FILTERS.map((filter) => (
-            <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={`px-4 py-2 rounded-full text-sm font-semibold transition-colors ${
-                activeFilter === filter
-                  ? "text-white"
-                  : "bg-white border border-gray-200 text-gray-500 hover:border-[#185FA5] hover:text-[#185FA5]"
-              }`}
-              style={activeFilter === filter ? { background: "#185FA5" } : {}}
-            >
-              {filter}
-            </button>
-          ))}
+          {/* Row 2: Filter pills */}
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* Status group */}
+            <span className="text-xs font-semibold text-gray-400 mr-1">Status:</span>
+            {STATUS_FILTERS.map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setStatusFilter(filter)}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                  statusFilter === filter
+                    ? "bg-[#185FA5] text-white"
+                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                }`}
+              >
+                {filter}
+              </button>
+            ))}
+
+            <div className="w-px h-5 bg-gray-200 mx-1" />
+
+            {/* Severity group */}
+            <span className="text-xs font-semibold text-gray-400 mr-1">Severity:</span>
+            {SEVERITY_FILTERS.map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setSeverityFilter(filter)}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${getSeverityPillStyle(filter, severityFilter === filter)}`}
+              >
+                {filter}
+              </button>
+            ))}
+
+            <div className="w-px h-5 bg-gray-200 mx-1" />
+
+            {/* Category group */}
+            <span className="text-xs font-semibold text-gray-400 mr-1">Category:</span>
+            {CATEGORY_FILTERS.map((filter) => (
+              <button
+                key={filter}
+                onClick={() => setCategoryFilter(filter)}
+                className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                  categoryFilter === filter
+                    ? "bg-[#185FA5] text-white"
+                    : "bg-gray-100 text-gray-500 hover:bg-gray-200"
+                }`}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
+
+          {/* Row 3: Active filter tags + clear */}
+          {hasActiveFilters && (
+            <div className="flex items-center gap-2 flex-wrap pt-1 border-t border-gray-100">
+              {searchTerm && (
+                <span className="flex items-center gap-1.5 bg-[#185FA5]/10 text-[#185FA5] text-xs font-medium px-2.5 py-1 rounded-full">
+                  Search: {searchTerm}
+                  <button
+                    onClick={() => setSearchTerm("")}
+                    className="hover:text-[#0C447C] ml-0.5"
+                  >
+                    ×
+                  </button>
+                </span>
+              )}
+              {statusFilter !== "All" && (
+                <span className="flex items-center gap-1.5 bg-[#185FA5]/10 text-[#185FA5] text-xs font-medium px-2.5 py-1 rounded-full">
+                  Status: {statusFilter}
+                  <button
+                    onClick={() => setStatusFilter("All")}
+                    className="hover:text-[#0C447C] ml-0.5"
+                  >
+                    ×
+                  </button>
+                </span>
+              )}
+              {severityFilter !== "All" && (
+                <span className="flex items-center gap-1.5 bg-[#185FA5]/10 text-[#185FA5] text-xs font-medium px-2.5 py-1 rounded-full">
+                  Severity: {severityFilter}
+                  <button
+                    onClick={() => setSeverityFilter("All")}
+                    className="hover:text-[#0C447C] ml-0.5"
+                  >
+                    ×
+                  </button>
+                </span>
+              )}
+              {categoryFilter !== "All" && (
+                <span className="flex items-center gap-1.5 bg-[#185FA5]/10 text-[#185FA5] text-xs font-medium px-2.5 py-1 rounded-full">
+                  Category: {categoryFilter}
+                  <button
+                    onClick={() => setCategoryFilter("All")}
+                    className="hover:text-[#0C447C] ml-0.5"
+                  >
+                    ×
+                  </button>
+                </span>
+              )}
+              <button
+                onClick={clearAllFilters}
+                className="ml-auto text-xs text-gray-400 hover:text-[#C62828] font-medium transition-colors cursor-pointer"
+              >
+                Clear all filters
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* Reports Grid */}
-        <section className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {filteredSubmissions.map((report) => (
-            <div
-              key={report.id}
-              onClick={() => setSelectedSubmission(report)}
-              className="flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-[#185FA5] hover:scale-[1.01] cursor-pointer"
-              style={{ borderLeft: `4px solid ${severityColor(report.severity)}` }}
+        {/* Result count */}
+        <div className="flex items-center justify-between mb-4">
+          <span className="text-sm text-gray-400">
+            Showing {filteredSubmissions.length} of {MOCK_SUBMISSIONS.length} reports
+          </span>
+          {filteredSubmissions.length < MOCK_SUBMISSIONS.length && (
+            <button
+              onClick={clearAllFilters}
+              className="text-sm text-[#185FA5] font-medium cursor-pointer hover:underline"
             >
-              <div className="flex flex-grow flex-col gap-4 p-6">
-                <div className="mb-2 flex items-start justify-between">
-                  <div className="flex items-center gap-3">
-                    <span
-                      className={`rounded-full px-2.5 py-1 text-[13px] font-bold uppercase tracking-wide ${severityBgClass(report.severity)}`}
-                      style={{ color: severityColor(report.severity) }}
+              Show all
+            </button>
+          )}
+        </div>
+
+        {/* Reports Grid or Empty State */}
+        {filteredSubmissions.length > 0 ? (
+          <section className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {filteredSubmissions.map((report) => (
+              <div
+                key={report.id}
+                onClick={() => setSelectedSubmission(report)}
+                className="flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:border-[#185FA5] hover:scale-[1.01] cursor-pointer"
+                style={{ borderLeft: `4px solid ${severityColor(report.severity)}` }}
+              >
+                <div className="flex flex-grow flex-col gap-4 p-6">
+                  <div className="mb-2 flex items-start justify-between">
+                    <div className="flex items-center gap-3">
+                      <span
+                        className={`rounded-full px-2.5 py-1 text-[13px] font-bold uppercase tracking-wide ${severityBgClass(report.severity)}`}
+                        style={{ color: severityColor(report.severity) }}
+                      >
+                        {report.severity}
+                      </span>
+                      <span className="text-xs font-medium text-gray-400">
+                        #{String(report.id).padStart(3, "0")}
+                      </span>
+                    </div>
+                    <span className="flex items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 text-[13px] font-medium text-gray-500">
+                      <span className={`h-2 w-2 rounded-full ${statusDotClass(report.status)}`} />
+                      {report.status}
+                    </span>
+                  </div>
+                  <div>
+                    <h3 className="mb-2 text-[17px] font-semibold leading-snug text-gray-900">
+                      {report.description}
+                    </h3>
+                    <p className="line-clamp-2 text-[14px] leading-relaxed text-gray-500">
+                      {report.actnow.immediate_actions[0].replace(/^\d+\.\s*/, "")}
+                    </p>
+                  </div>
+                  {report.status === "Resolved" && (
+                    <div
+                      className="mt-2 rounded-md border border-dashed border-blue-200 bg-blue-50 p-3 text-[13px]"
+                      style={{ color: "#185FA5" }}
                     >
-                      {report.severity}
+                      <span className="font-bold">Resolution:</span> Barangay action team resolved
+                      this issue.
+                    </div>
+                  )}
+                  <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-5 text-xs font-medium text-gray-400">
+                    <span className="flex items-center gap-1.5">
+                      <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                      </svg>
+                      {report.location}
                     </span>
-                    <span className="text-xs font-medium text-gray-400">
-                      #{String(report.id).padStart(3, "0")}
-                    </span>
+                    <span>{report.date}</span>
                   </div>
-                  <span className="flex items-center gap-1.5 rounded-full bg-gray-100 px-2.5 py-1 text-[13px] font-medium text-gray-500">
-                    <span className={`h-2 w-2 rounded-full ${statusDotClass(report.status)}`} />
-                    {report.status}
-                  </span>
-                </div>
-                <div>
-                  <h3 className="mb-2 text-[17px] font-semibold leading-snug text-gray-900">
-                    {report.description}
-                  </h3>
-                  <p className="line-clamp-2 text-[14px] leading-relaxed text-gray-500">
-                    {report.actnow.immediate_actions[0].replace(/^\d+\.\s*/, "")}
-                  </p>
-                </div>
-                {report.status === "Resolved" && (
-                  <div
-                    className="mt-2 rounded-md border border-dashed border-blue-200 bg-blue-50 p-3 text-[13px]"
-                    style={{ color: "#185FA5" }}
-                  >
-                    <span className="font-bold">Resolution:</span> Barangay action team resolved
-                    this issue.
-                  </div>
-                )}
-                <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-5 text-xs font-medium text-gray-400">
-                  <span className="flex items-center gap-1.5">
-                    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
-                    </svg>
-                    {report.location}
-                  </span>
-                  <span>{report.date}</span>
                 </div>
               </div>
-            </div>
-          ))}
-        </section>
-
-        {filteredSubmissions.length === 0 && (
-          <div className="flex flex-col items-center justify-center py-16 text-gray-400">
-            <svg className="h-12 w-12 mb-3" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z" />
-            </svg>
-            <p className="text-sm font-medium">No reports found for "{activeFilter}"</p>
+            ))}
+          </section>
+        ) : (
+          <div className="py-16 flex flex-col items-center gap-3 text-center">
+            <span className="text-4xl">🔍</span>
+            <p className="text-gray-500 font-semibold text-lg">No reports found</p>
+            <p className="text-gray-400 text-sm">Try adjusting your filters or search term.</p>
+            <button
+              onClick={clearAllFilters}
+              className="mt-2 text-[#185FA5] text-sm font-semibold hover:underline cursor-pointer"
+            >
+              Clear all filters
+            </button>
           </div>
         )}
 
-        <div className="flex justify-center">
-          <button
-            className="rounded-lg border-2 px-8 py-3 text-sm font-bold shadow-sm transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2"
-            style={{ borderColor: "#185FA5", color: "#185FA5" }}
-          >
-            Load More Reports
-          </button>
-        </div>
+        {filteredSubmissions.length > 0 && (
+          <div className="flex justify-center mt-10">
+            <button
+              className="rounded-lg border-2 px-8 py-3 text-sm font-bold shadow-sm transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2"
+              style={{ borderColor: "#185FA5", color: "#185FA5" }}
+            >
+              Load More Reports
+            </button>
+          </div>
+        )}
       </main>
 
       {/* Mobile overlay */}
