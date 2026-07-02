@@ -6,6 +6,7 @@ import {
   activateDemo,
   clearDemoFlag,
   DEFAULT_DEMO,
+  DEMO_OPTIONS,
   getDemoByFilename,
 } from "@/lib/demoResults";
 
