@@ -115,51 +115,101 @@ Respond with this exact JSON structure:
   }` : ""}
 }`;
 
-    const messages: Array<Record<string, unknown>> = [];
-    if (input.photoBase64) {
-      messages.push({
-        role: "user",
-        content: [
-          { type: "image_url", image_url: { url: `data:image/jpeg;base64,${input.photoBase64}` } },
-          { type: "text", text: userPrompt },
-        ],
-      });
-    } else {
-      messages.push({ role: "user", content: userPrompt });
-    }
+    // NeedBridge AI — Free tier models via OpenRouter (updated)
+    // Two-tier free model system
+    // Tier 1 — Vision capable (used when photo is uploaded)
+    const visionModels = [
+      "google/gemma-4-31b-it:free",        // Primary — free, vision capable
+      "meta-llama/llama-4-maverick:free",  // Fallback — free, vision capable
+    ];
 
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-        "HTTP-Referer": "https://needbridge.vercel.app",
-        "X-Title": "NeedBridge",
-      },
-      body: JSON.stringify({
-        model: "google/gemini-2.5-flash-lite",
-        messages: [{ role: "system", content: systemPrompt }, ...messages],
-        response_format: { type: "json_object" },
-        temperature: 0.3,
-      }),
-    });
+    // Tier 2 — Text only (used when only description is provided, no photo)
+    const textModels = [
+      "nvidia/nemotron-3-super-120b-a12b:free", // Primary — free, strong reasoning
+      "meta-llama/llama-4-scout:free",          // Fallback — free, fast
+    ];
 
-    if (!response.ok) {
-      const error = await response.text();
-      throw new Error(`OpenRouter API error: ${error}`);
-    }
+    // Select model tier based on whether a photo was provided
+    const modelsToTry = input.photoBase64 ? visionModels : textModels;
 
-    const respJson = await response.json();
-    const content: string = respJson.choices[0].message.content;
+    // Only include image for vision-capable models
+    const isVisionModel = (modelId: string) =>
+      modelId.includes("gemma") || modelId.includes("maverick");
 
-    try {
-      return JSON.parse(content);
-    } catch {
-      const jsonStart = content.indexOf("{");
-      const jsonEnd = content.lastIndexOf("}");
-      if (jsonStart !== -1 && jsonEnd !== -1) {
-        return JSON.parse(content.substring(jsonStart, jsonEnd + 1));
+    let lastError: Error | null = null;
+
+    for (const model of modelsToTry) {
+      try {
+        // Build messages — include photo only for vision models
+        const messages: Array<Record<string, unknown>> = [];
+        if (input.photoBase64 && isVisionModel(model)) {
+          messages.push({
+            role: "user",
+            content: [
+              {
+                type: "image_url",
+                image_url: { url: `data:image/jpeg;base64,${input.photoBase64}` },
+              },
+              { type: "text", text: userPrompt },
+            ],
+          });
+        } else {
+          messages.push({ role: "user", content: userPrompt });
+        }
+
+        const response = await fetch(
+          "https://openrouter.ai/api/v1/chat/completions",
+          {
+            method: "POST",
+            headers: {
+              "Authorization": `Bearer ${apiKey}`,
+              "Content-Type": "application/json",
+              "HTTP-Referer": "https://needbridge.vercel.app",
+              "X-Title": "NeedBridge",
+            },
+            body: JSON.stringify({
+              model,
+              messages: [
+                { role: "system", content: systemPrompt },
+                ...messages,
+              ],
+              response_format: { type: "json_object" },
+              temperature: 0.3,
+              max_tokens: 2000,
+            }),
+          }
+        );
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`${model} failed with ${response.status}: ${errorText}`);
+        }
+
+        const data = await response.json();
+        const content: string = data.choices[0].message.content;
+
+        // Clean and parse the JSON response
+        let cleanedText = content
+          .replace(/```json/gi, "")
+          .replace(/```/g, "")
+          .trim();
+
+        const jsonStart = cleanedText.indexOf("{");
+        const jsonEnd = cleanedText.lastIndexOf("}");
+
+        if (jsonStart === -1 || jsonEnd === -1) {
+          throw new Error(`No valid JSON in response from ${model}`);
+        }
+
+        cleanedText = cleanedText.substring(jsonStart, jsonEnd + 1);
+        return JSON.parse(cleanedText);
+      } catch (error: any) {
+        console.warn(`Model ${model} failed — trying next:`, error.message);
+        lastError = error;
+        // Continue to next model in the array
       }
-      throw new Error(`Failed to parse OpenRouter response: ${content}`);
     }
+
+    // All models failed
+    throw lastError || new Error("All AI models failed. Please try again.");
   });
