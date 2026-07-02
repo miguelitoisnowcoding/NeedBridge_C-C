@@ -87,11 +87,6 @@ export function SubmitScreen() {
       }
     };
 
-  const handleTryDemo = async () => {
-    setError(null);
-    activateDemo(DEFAULT_DEMO);
-    await navigate({ to: "/loading" });
-  };
 
   return (
     <PageLayout>
