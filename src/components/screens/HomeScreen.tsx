@@ -273,8 +273,8 @@ function OnboardingModal({ onComplete }: { onComplete: () => void }) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 backdrop-blur-sm">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-auto overflow-hidden relative">
+    <div className="fixed inset-0 bg-black/60 z-[100] flex items-start justify-center p-4 backdrop-blur-sm overflow-y-auto">
+      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-auto my-4 relative">
         {/* Progress bar */}
         <div className="w-full h-1 bg-gray-100">
           <div
@@ -356,7 +356,7 @@ function OnboardingModal({ onComplete }: { onComplete: () => void }) {
               </p>
             </div>
 
-            <div className="p-6 pt-2 flex flex-col gap-5">
+            <div className="p-6 pt-2 flex flex-col gap-5 overflow-y-auto max-h-[45vh] md:max-h-none">
               {selectedRole === "resident" && (
                 <>
                   <div>
