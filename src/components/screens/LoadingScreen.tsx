@@ -22,7 +22,7 @@ export function LoadingScreen() {
           {[
             { label: "Identifying issue type", sub: "WatsonX Classifier" },
             { label: "Determining severity", sub: "" },
-            { label: "Generating response plan", sub: "OpenRouter — Gemini 2.0 Flash" }
+            { label: "Generating response plan", sub: "OpenRouter — Gemini 4 / Llama 4" }
           ].map((step, i) => (
             <div key={i} className="flex items-center gap-3">
               <div className="w-6 h-6 rounded-full bg-green-500
