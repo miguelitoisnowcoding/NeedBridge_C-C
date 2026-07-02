@@ -6,6 +6,7 @@ import {
   activateDemo,
   clearDemoFlag,
   DEFAULT_DEMO,
+  DEMO_OPTIONS,
   getDemoByFilename,
 } from "@/lib/demoResults";
 
@@ -86,11 +87,6 @@ export function SubmitScreen() {
       }
     };
 
-  const handleTryDemo = async () => {
-    setError(null);
-    activateDemo(DEFAULT_DEMO);
-    await navigate({ to: "/loading" });
-  };
 
   return (
     <PageLayout>
@@ -270,19 +266,28 @@ export function SubmitScreen() {
                   <path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z" />
                 </svg>
               </button>
-              <div className="mt-4 flex flex-col items-center gap-1">
-                <button
-                  type="button"
-                  onClick={handleTryDemo}
-                  disabled={isAnalyzing}
-                  className="w-full rounded-xl border-2 bg-white py-3 text-sm font-bold transition-colors hover:bg-[#1A3C5E]/5 disabled:opacity-50"
-                  style={{ borderColor: "#1A3C5E", color: "#1A3C5E" }}
-                >
-                  ✨ Try a Demo Instead
-                </button>
-                <p className="text-xs text-gray-500">
-                  See how NeedBridge works with a sample report.
+              <div className="mt-4 flex flex-col items-center gap-3">
+                <p className="text-xs font-medium text-gray-500">
+                  See how NeedBridge works with a sample report:
                 </p>
+                <div className="grid w-full grid-cols-1 gap-2 sm:grid-cols-3">
+                  {DEMO_OPTIONS.map((demo) => (
+                    <button
+                      key={demo.id}
+                      type="button"
+                      onClick={async () => {
+                        setError(null);
+                        activateDemo(demo.result);
+                        await navigate({ to: "/loading" });
+                      }}
+                      disabled={isAnalyzing}
+                      className="w-full rounded-lg border-2 bg-white py-2.5 text-xs font-bold transition-colors hover:bg-[#1A3C5E]/5 disabled:opacity-50"
+                      style={{ borderColor: "#1A3C5E", color: "#1A3C5E" }}
+                    >
+                      ✨ {demo.label}
+                    </button>
+                  ))}
+                </div>
               </div>
               <p className="mt-3 flex items-center justify-center gap-1 text-center text-xs text-gray-400">
                 <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="currentColor">

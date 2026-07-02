@@ -182,6 +182,19 @@ export const DEMO_RESULTS: Record<string, NeedBridgeOutput> = {
 
 export const DEFAULT_DEMO: NeedBridgeOutput = drainage;
 
+export interface DemoOption {
+  id: string;
+  label: string;
+  filename: string;
+  result: NeedBridgeOutput;
+}
+
+export const DEMO_OPTIONS: DemoOption[] = [
+  { id: "drainage", label: "Demo 1 — Drainage Overflow", filename: "demo-drainage.jpg", result: drainage },
+  { id: "road", label: "Demo 2 — Road Damage", filename: "demo-road.jpg", result: road },
+  { id: "streetlight", label: "Demo 3 — Broken Streetlight", filename: "demo-streetlight.jpg", result: streetlight },
+];
+
 export function getDemoByFilename(name: string | undefined): NeedBridgeOutput | null {
   if (!name) return null;
   const key = name.toLowerCase().trim();
